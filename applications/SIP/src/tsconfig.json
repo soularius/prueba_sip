@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2016",                // Establece la versión del lenguaje JavaScript objetivo
+    "module": "commonjs",              // Usa CommonJS para módulos (adecuado para Node.js)
+    "esModuleInterop": true,           // Permite interoperabilidad de módulos ES6
+    "forceConsistentCasingInFileNames": true,  // Asegura consistencia en las mayúsculas y minúsculas de los nombres de archivos
+    "strict": true,                    // Habilita todas las opciones estrictas de verificación de tipos
+    "outDir": "../static/js/compiled_ts",  // Directorio de salida para los archivos JS compilados
+    "skipLibCheck": true               // Omite la verificación de tipos en archivos de declaración
+  },
+  "include": ["**/*"]
+}
