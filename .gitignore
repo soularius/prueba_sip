@@ -1,0 +1,13 @@
+*.pyc
+*.pyo
+*.db
+*.swp
+*~
+__pycache__/
+sessions/
+databases/
+errors/
+uploads/
+private/
+*.bak
+*.w2p
