@@ -178,3 +178,36 @@ CREATE TABLE "classes_students"(
     "student_uuid" INTEGER REFERENCES "students" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
+timestamp: 2023-12-06T23:34:09.392676
+ALTER TABLE "classes" ADD "salon_uuid" INTEGER REFERENCES "salons" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
+timestamp: 2023-12-06T23:34:09.395756
+ALTER TABLE "classes" ADD "subject_uuid" INTEGER REFERENCES "subjects" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
+timestamp: 2023-12-06T23:34:09.398300
+ALTER TABLE "classes" ADD "schedule_uuid" INTEGER REFERENCES "schedules" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
+timestamp: 2023-12-06T23:34:09.399300
+ALTER TABLE "classes" ADD "teacher_uuid" INTEGER REFERENCES "teachers" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
+timestamp: 2023-12-06T23:34:09.401294
+ALTER TABLE "classes" ADD "day_of_week_uuid" INTEGER REFERENCES "day_of_week" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
+timestamp: 2023-12-06T23:34:09.403316
+ALTER TABLE "classes" DROP COLUMN "salon";
+timestamp: 2023-12-06T23:34:09.406288
+ALTER TABLE "classes" DROP COLUMN "subject";
+timestamp: 2023-12-06T23:34:09.407290
+ALTER TABLE "classes" DROP COLUMN "schedule";
+timestamp: 2023-12-06T23:34:09.409770
+ALTER TABLE "classes" DROP COLUMN "teacher";
+timestamp: 2023-12-06T23:34:09.411768
+ALTER TABLE "classes" DROP COLUMN "day_of_week";
+success!
+timestamp: 2023-12-06T23:34:09.422779
+CREATE TABLE "attendance"(
+    "id" SERIAL PRIMARY KEY,
+    "student_uuid" INTEGER REFERENCES "students" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "class_uuid" INTEGER REFERENCES "classes" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "date_class" DATE,
+    "status" INTEGER
+);
+success!
+timestamp: 2023-12-06T23:37:05.619684
+ALTER TABLE "attendance" ADD "uuid" VARCHAR(16) UNIQUE;
+success!
