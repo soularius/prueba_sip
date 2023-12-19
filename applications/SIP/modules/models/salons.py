@@ -3,9 +3,8 @@ class Salons:
     def __init__(self, db):
         self.db = db
     def define_table(self):
-        if not 'salons' in self.db.tables:
+        if 'salons' not in self.db.tables:
             self.db.define_table('salons',
-                            Field('uuid', 'string', length=16, unique=True),
                             Field('name', 'string', length=45),
                             Field('description', 'text'))
 

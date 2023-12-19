@@ -3,9 +3,8 @@ class Schedules:
     def __init__(self, db):
         self.db = db
     def define_table(self):
-        if not 'schedules' in self.db.tables:      
+        if 'schedules' not in self.db.tables:
             self.db.define_table('schedules',
-                            Field('uuid', 'string', length=16, unique=True),
                             Field('block_start', 'time'),
                             Field('block_end', 'time'))
 

@@ -4,8 +4,8 @@ class TeacherFactory(metaclass=SingletonMeta):
     def __init__(self):
         self.cache = {}
 
-    def create_teacher(self, uuid, name, lastname, phone, email):
-        if uuid not in self.cache:
-            teacher = db.teachers.insert(uuid=uuid, name=name, lastname=lastname, phone=phone, email=email)
-            self.cache[uuid] = teacher
-        return self.cache[uuid]
+    def create_teacher(self, id, name, lastname, phone, email):
+        if id not in self.cache:
+            teacher = self.db.teachers.insert(name=name, lastname=lastname, phone=phone, email=email)
+            self.cache[id] = teacher
+        return self.cache[id]
