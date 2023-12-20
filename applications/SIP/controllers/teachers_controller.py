@@ -3,7 +3,7 @@ class TeachersController:
         self.db = db
         self.SQLFORM = SQLFORM
     
-    def grid(self):
+    def index(self):
         grid = self.SQLFORM.grid(self.db.teachers)
         return dict(grid=grid)
 

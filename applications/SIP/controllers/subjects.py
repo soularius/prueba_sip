@@ -1,8 +1,8 @@
 from applications.SIP.controllers.subjects_controller import SubjectsController
 
-def list():
+def index():
     controller = SubjectsController(db, SQLFORM)
-    return controller.grid()
+    return controller.index()
 
 
 def create():

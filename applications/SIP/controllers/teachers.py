@@ -1,8 +1,8 @@
 from applications.SIP.controllers.teachers_controller import TeachersController
 
-def list():
+def index():
     controller = TeachersController(db, SQLFORM)
-    return controller.grid()
+    return controller.index()
 
 
 def create():

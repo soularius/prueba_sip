@@ -3,7 +3,7 @@ class SubjectsController:
         self.db = db
         self.SQLFORM = SQLFORM
     
-    def grid(self):
+    def index(self):
         grid = self.SQLFORM.grid(self.db.subjects)
         return dict(grid=grid)
 

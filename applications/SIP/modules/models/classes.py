@@ -5,6 +5,7 @@ class Classes:
     def define_table(self):
         if 'classes' not in self.db.tables:
             self.db.define_table('classes',
+                            Field('code', 'string', length=55, unique=True),
                             Field('salon_id', 'reference salons', ondelete='CASCADE'),
                             Field('subject_id', 'reference subjects', ondelete='CASCADE'),
                             Field('schedule_id', 'reference schedules', ondelete='CASCADE'),
