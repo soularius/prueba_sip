@@ -5,6 +5,9 @@ def index():
     controller = StudentsController(db, SQLFORM)
     return controller.index()
 
+def students_register_ts():
+    return dict(tittle="Registro de Estudiante")
+
 def api_list_student():
     page = int(request.vars.page or 1)
     page_size = int(request.vars.page_size or 10)
