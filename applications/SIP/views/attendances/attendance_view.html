@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+
+<h2>Control de Asistencia</h2>
+
+{{=table}}
+
+<p>
+    {{if page > 0:}}
+    <a href="{{=URL('attendance_view', args=[page-1])}}">Anterior</a>
+    {{pass}}
+    <a href="{{=URL('attendance_view', args=[page+1])}}">Siguiente</a>
+</p>

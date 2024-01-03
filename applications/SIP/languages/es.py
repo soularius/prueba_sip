@@ -271,6 +271,7 @@
 'Schedule Id': 'Schedule Id',
 'Search': 'Search',
 'Seccion': 'Seccion',
+'Sección': 'Sección',
 'Sección | Estudiante': 'Sección | Estudiante',
 'Section Class': 'Section Class',
 'Services': 'Servicios',

@@ -20,6 +20,6 @@ class FakeDataClassesStudentsGenerator:
 
     def generate_unique_section_name(self):
         while True:
-            section_name = f"Seccion {random.choice(string.ascii_uppercase)}{random.randint(1, 99):02d}"
+            section_name = f"{random.choice(string.ascii_uppercase)}{random.randint(1, 99):02d}"
             if not self.db(self.db.classes_students.section_class == section_name).count():
                 return section_name

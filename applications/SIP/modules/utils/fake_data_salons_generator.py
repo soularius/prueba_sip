@@ -9,7 +9,7 @@ class FakeDataSalonGenerator:
 
     def generate_salons(self, num_records):
         for _ in range(num_records):
-            salon_name = f"Salón {random.choice(string.ascii_uppercase)}{random.randint(1, 99):02d}"
+            salon_name = f"{random.choice(string.ascii_uppercase)}{random.randint(1, 99):02d}"
             self.db.salons.insert(
                 name=salon_name,
                 description=self.fake.text(max_nb_chars=200)
