@@ -90,6 +90,46 @@
         {{pass}}
       </div>
     </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand d-flex mr-auto" href="{{=URL('default', 'index')}}">SIP</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item {{='active' if request.controller == 'students' else ''}}">
+                <a class="nav-link" href="{{=URL('students', 'index')}}">Estudiantes</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'teachers' else ''}}">
+                <a class="nav-link" href="{{=URL('teachers', 'index')}}">Profesores</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'subjects' else ''}}">
+                <a class="nav-link" href="{{=URL('subjects', 'index')}}">Materias</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'schedules' else ''}}">
+                <a class="nav-link" href="{{=URL('schedules', 'index')}}">Horarios</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'day_of_weeks' else ''}}">
+                <a class="nav-link" href="{{=URL('day_of_weeks', 'index')}}">Dias de la Semana</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'salons' else ''}}">
+                <a class="nav-link" href="{{=URL('salons', 'index')}}">Salones</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'classes' else ''}}">
+                <a class="nav-link" href="{{=URL('classes', 'index')}}">Clases de las materias</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'classes_students' else ''}}">
+                <a class="nav-link" href="{{=URL('classes_students', 'index')}}">Estudiantes inscritos a classes</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'attendances' else ''}}">
+                <a class="nav-link" href="{{=URL('attendances', 'index')}}">Asistencias</a>
+            </li>
+            <li class="nav-item {{='active' if request.controller == 'fake_generate' else ''}}">
+                <a class="nav-link" href="{{=URL('fake_generate', 'index')}}">Generar datos falsos</a>
+            </li>
+          </ul>
+      </div>
+    </nav>
 
     <!-- Masthead ===================================== -->
     {{block header}}
