@@ -11,3 +11,6 @@ class Salons:
             # Validation for 'salons'
             self.db.salons.name.requires = IS_NOT_EMPTY()
             self.db.salons.description.requires = IS_NOT_EMPTY()
+
+            self.db.salons.name.label = 'Nombre'
+            self.db.salons.description.label = 'Descripción'

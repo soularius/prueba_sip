@@ -7,11 +7,16 @@ class Student:
             self.db.define_table('students',
                                  Field('name', 'string', length=55),
                                  Field('lastname', 'string', length=55),
-                                 Field('phone', 'integer'),
-                                 Field('email', 'string', length=45, unique=True))
+                                 Field('phone', 'string', length=55),
+                                 Field('email', 'string', length=55, unique=True))
 
             # validation for 'students'
             self.db.students.name.requires = IS_NOT_EMPTY()
             self.db.students.lastname.requires = IS_NOT_EMPTY()
             self.db.students.email.requires = [IS_NOT_EMPTY(), IS_EMAIL(), IS_NOT_IN_DB(self.db, 'students.email')]
             self.db.students.phone.requires = [IS_NOT_EMPTY(), IS_MATCH('^[0-9]{10}$', error_message='Please enter a valid phone number.')]
+
+            self.db.students.name.label = 'Nombre'
+            self.db.students.lastname.label = 'Apellido'
+            self.db.students.email.label = 'Correo Electrónico'
+            self.db.students.phone.label = 'Teléfono'

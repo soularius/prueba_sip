@@ -9,3 +9,5 @@ class DayOfWeek:
 
             # validation for 'day_of_week'
             self.db.day_of_week.name.requires = IS_NOT_EMPTY()
+
+            self.db.day_of_week.name.label = 'Día de la semana'

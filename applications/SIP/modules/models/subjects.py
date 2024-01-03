@@ -11,3 +11,6 @@ class Subjects:
             # Validation for 'subjects'
             self.db.subjects.name.requires = IS_NOT_EMPTY()
             self.db.subjects.description.requires = IS_NOT_EMPTY()
+
+            self.db.subjects.name.label = 'Nombre'
+            self.db.subjects.description.label = 'Descripción'
