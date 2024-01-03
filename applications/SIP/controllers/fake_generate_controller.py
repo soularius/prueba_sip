@@ -23,3 +23,4 @@ class FakeGenerateController:
         FakeDataClassesGenerator(self.db).generate_classes(100)
         FakeDataClassesStudentsGenerator(self.db).generate_classes_students(250)
         FakeDataAttendanceGenerator(self.db).generate_attendance(300)
+        return dict(message="Datos generados exitosamente")
