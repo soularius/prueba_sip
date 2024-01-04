@@ -11,7 +11,7 @@ export class StudentRepository {
     getStudent(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_get_student/${id}`);
+                const response = yield fetch(`/SIP/students/api_get_student/${id}`);
                 if (!response.ok) {
                     // Maneja la respuesta no exitosa (como 404 o 500)
                     throw new Error('Error al obtener el estudiante');
@@ -33,7 +33,7 @@ export class StudentRepository {
     listStudents(page) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_list_student?page=${page}`);
+                const response = yield fetch(`/SIP/students/api_list_student?page=${page}`);
                 if (!response.ok) {
                     throw new Error('Error al obtener la lista de estudiantes');
                 }
@@ -48,7 +48,7 @@ export class StudentRepository {
     }
     createStudent(student) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield fetch('http://127.0.0.1:8000/SIP/students/api_create_student', {
+            yield fetch('/SIP/students/api_create_student', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(student)
@@ -57,7 +57,7 @@ export class StudentRepository {
     }
     updateStudent(id, student) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield fetch(`http://127.0.0.1:8000/SIP/students/api_update_student/${id}`, {
+            yield fetch(`/SIP/students/api_update_student/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(student)
@@ -66,7 +66,7 @@ export class StudentRepository {
     }
     deleteStudent(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield fetch(`http://127.0.0.1:8000/SIP/students/api_delete_student/${id}`, {
+            yield fetch(`/SIP/students/api_delete_student/${id}`, {
                 method: 'DELETE'
             });
         });
@@ -74,7 +74,7 @@ export class StudentRepository {
     getTotalPages(itemsPerPage = 10) {
         return __awaiter(this, void 0, void 0, function* () {
             // Suponiendo que tienes un endpoint que devuelve el total de estudiantes
-            const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_total_students`);
+            const response = yield fetch(`/SIP/students/api_total_students`);
             const totalStudents = yield response.json();
             const totalPages = Math.ceil(totalStudents.total_students / itemsPerPage);
             return totalPages;
