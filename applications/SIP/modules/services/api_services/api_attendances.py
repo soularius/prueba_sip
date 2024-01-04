@@ -6,16 +6,16 @@ class APIAttendance:
         try:
             attendance_id = self.db.attendance.insert(**attendance_data)
             self.db.commit()
-            return {'status': 'success', 'attendance_id': attendance_id}
+            return {'status': 'success', 'attendance_id': attendance_id, 'http_status': 201}
         except Exception as e:
-            return {'status': 'error', 'message': str(e)}
+            return {'status': 'error', 'message': str(e), 'http_status': 500}
 
     def get_attendance(self, attendance_id):
         attendance = self.db.attendance(attendance_id)
         if attendance:
-            return attendance.as_dict()
+            return {'attendance': attendance.as_dict(), 'http_status': 200}
         else:
-            return {'status': 'error', 'message': 'Attendance not found'}
+            return {'status': 'error', 'message': 'Attendance not found', 'http_status': 404}
 
     def list_attendance(self, page=1, items_per_page=10):
         start = (page - 1) * items_per_page
@@ -24,31 +24,24 @@ class APIAttendance:
         if attendances:
             # Convertir cada registro de estudiante a un diccionario y agregarlos a una lista
             attendances_list = [attendance.as_dict() for attendance in attendances]
-            return attendances_list
+            return {'attendances': attendances_list, 'http_status': 200}
         else:
-            return {'status': 'error', 'message': 'No students found'}
+            return {'status': 'error', 'message': 'No students found', 'http_status': 404}
         
     def update_attendance(self, attendance_id, attendance_data):
         attendance = self.db.attendance(attendance_id)
         if attendance:
             attendance.update_record(**attendance_data)
             self.db.commit()
-            return {'status': 'success', 'message': 'Attendance updated successfully'}
+            return {'status': 'success', 'message': 'Attendance updated successfully', 'http_status': 200}
         else:
-            return {'status': 'error', 'message': 'Attendance not found'}
+            return {'status': 'error', 'message': 'Attendance not found', 'http_status': 404}
 
     def delete_attendance(self, attendance_id):
         attendance = self.db.attendance(attendance_id)
         if attendance:
             self.db(self.db.attendance.id == attendance_id).delete()
             self.db.commit()
-            return {'status': 'success', 'message': 'Attendance deleted successfully'}
+            return {'status': 'success', 'message': 'Attendance deleted successfully', 'http_status': 200}
         else:
-            return {'status': 'error', 'message': 'Attendance not found'}
-
-    def list_attendance(self, page=1, page_size=10):
-        start = (page - 1) * page_size
-        end = page * page_size
-        attendances = self.db(self.db.attendance).select(orderby=self.db.attendance.id, limitby=(start, end))
-        attendances_list = [attendance.as_dict() for attendance in attendances]
-        return attendances_list
+            return {'status': 'error', 'message': 'Attendance not found', 'http_status': 404}
