@@ -2,12 +2,7 @@ import unittest
 from mock import Mock
 from gluon import DAL, URL
 from gluon.globals import Request, Response, Session
-from applications.SIP.controllers.students import api_create_student
-from applications.SIP.controllers.students import api_list_student
-from applications.SIP.controllers.students import api_get_student
-from applications.SIP.controllers.students import api_update_student
-from applications.SIP.controllers.students import api_delete_student
-from applications.SIP.controllers.students import api_total_students
+from applications.SIP.controllers.students import *
 
 
 from applications.SIP.modules.models.student import Student
@@ -42,6 +37,41 @@ class TestStudentsController(unittest.TestCase):
 
         self.SQLFORM = Mock()
         self.SQLFORM.grid = Mock(return_value="Mock Grid")
+
+    def test_students_register_ts(self):
+        response = students_register_ts()
+        self.assertEqual(response['tittle'], "Registro de Estudiante")
+    
+    def test_students_list_ts(self):
+        response = students_list_ts()
+        self.assertEqual(response['tittle'], "Listado de Estudiantes")
+
+    def test_students_view_ts(self):
+
+        student_id = '2'
+        # Configurar el objeto request
+        self.request = Request(env={'request_method': 'GET'})
+        self.request.args = [str(student_id)]
+
+        from gluon.globals import current
+        current.request = self.request
+
+        response = students_view_ts()
+        self.assertEqual(response['tittle'], "Detalle de Estudiante")
+        self.assertEqual(response['student_id'], int(student_id))
+
+    def test_students_edit_ts(self):
+        student_id = '4'
+        # Configurar el objeto request
+        self.request = Request(env={'request_method': 'GET'})
+        self.request.args = [str(student_id)]
+
+        from gluon.globals import current
+        current.request = self.request
+
+        response = students_edit_ts()
+        self.assertEqual(response['tittle'], "Editar Estudiante")
+        self.assertEqual(response['student_id'], int(student_id))
 
     def test_api_create_student(self):
         # Configurar el objeto request
