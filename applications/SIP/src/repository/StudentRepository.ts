@@ -14,7 +14,8 @@ export class StudentRepository {
                 console.error(result.message); // O muestra un mensaje al usuario
                 return null;
             }
-            return result;
+            if(result.http_status !== 200) throw new Error(result.http_status)
+            return result.student;
         } catch (error) {
             console.error('Error al obtener el estudiante:', error);
             return null;
@@ -28,7 +29,8 @@ export class StudentRepository {
                 throw new Error('Error al obtener la lista de estudiantes');
             }
             const students = await response.json();
-            return students;
+            if(students.http_status !== 200) throw new Error(students.http_status)
+            return students.students;
         } catch (error) {
             console.error('Error al obtener la lista de estudiantes:', error);
             return null;
