@@ -1,8 +1,7 @@
 import unittest
-from mock import Mock, patch
-from gluon import DAL, Field, URL
-from gluon.globals import Request, Storage, Response, Session
-from gluon.rewrite import regex_url_in
+from mock import Mock
+from gluon import DAL, URL
+from gluon.globals import Request, Response, Session
 from applications.SIP.controllers.attendances import attendance_view
 from applications.SIP.controllers.attendances import attendance_update
 from applications.SIP.controllers.attendances import api_create_attendance
@@ -80,7 +79,7 @@ class TestAttendancesController(unittest.TestCase):
     
     def test_attendance_update(self):
         # Crear un registro de asistencia para la prueba
-        record_id = '1'
+        record_id = '3'
         updated_record = self.db.attendance(record_id)
         self.db.commit()
 
@@ -91,7 +90,7 @@ class TestAttendancesController(unittest.TestCase):
         self.request.controller = 'attendances'
         self.request.function = 'attendance_update'
         self.request.args = [record_id]  # ID del registro a actualizar
-        self.request.vars = {f'status_{record_id}': new_status}  # Nuevo estado
+        self.request._post_vars = {f'status_{record_id}': new_status}  # Nuevo estado
 
         from gluon.globals import current
         current.request = self.request
@@ -111,7 +110,7 @@ class TestAttendancesController(unittest.TestCase):
         self.request.application = 'SIP'
         self.request.controller = 'attendances'
         self.request.function = 'api_create_attendance'
-        self.request.vars = {   'classes_students_id': 1, 
+        self.request._post_vars = {   'classes_students_id': 1, 
                                 'date_class': "2023-10-27",
                                 'status': 1,
                                 'note': "Test note"
@@ -227,7 +226,6 @@ class TestAttendancesController(unittest.TestCase):
             import json
             response = json.loads(response)
         self.assertEqual(response['http_status'], 200)
-
 
     def tearDown(self):
         # Restablecer el estado de 'current' después de cada prueba
