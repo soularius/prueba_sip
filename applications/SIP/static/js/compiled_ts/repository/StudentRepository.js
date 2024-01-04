@@ -10,14 +10,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export class StudentRepository {
     getStudent(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_get_student/${id}`);
-            return yield response.json();
+            try {
+                const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_get_student/${id}`);
+                if (!response.ok) {
+                    // Maneja la respuesta no exitosa (como 404 o 500)
+                    throw new Error('Error al obtener el estudiante');
+                }
+                const result = yield response.json();
+                if (result.status === 'error') {
+                    // Maneja el caso de "Student not found" o errores similares
+                    console.error(result.message); // O muestra un mensaje al usuario
+                    return null;
+                }
+                return result;
+            }
+            catch (error) {
+                console.error('Error al obtener el estudiante:', error);
+                return null;
+            }
         });
     }
     listStudents(page) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_list_student?page=${page}`);
-            return yield response.json();
+            try {
+                const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_list_student?page=${page}`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener la lista de estudiantes');
+                }
+                const students = yield response.json();
+                return students;
+            }
+            catch (error) {
+                console.error('Error al obtener la lista de estudiantes:', error);
+                return null;
+            }
         });
     }
     createStudent(student) {
@@ -43,6 +69,15 @@ export class StudentRepository {
             yield fetch(`http://127.0.0.1:8000/SIP/students/api_delete_student/${id}`, {
                 method: 'DELETE'
             });
+        });
+    }
+    getTotalPages(itemsPerPage = 10) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Suponiendo que tienes un endpoint que devuelve el total de estudiantes
+            const response = yield fetch(`http://127.0.0.1:8000/SIP/students/api_total_students`);
+            const totalStudents = yield response.json();
+            const totalPages = Math.ceil(totalStudents.total_students / itemsPerPage);
+            return totalPages;
         });
     }
 }

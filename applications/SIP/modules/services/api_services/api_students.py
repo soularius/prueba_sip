@@ -50,3 +50,10 @@ class APIStudent:
             return {'status': 'success', 'message': 'Student deleted successfully'}
         else:
             return {'status': 'error', 'message': 'Student not found'}
+        
+    def get_total_students(self):
+        try:
+            total_students = self.db(self.db.students.id > 0).count()
+            return {'status': 'success', 'total_students': total_students}
+        except Exception as e:
+            return {'status': 'error', 'message': str(e)}

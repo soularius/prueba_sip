@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+<!-- En tu vista o plantilla HTML de Web2py -->
+
+<h2 class="text-center mb-5 mt-5 pt-2">{{=tittle}}</h2>
+<div id="student-btn-create" class="w-100 d-flex justify-content-end mb-4">
+    <a class="item btn btn-primary" href="{{=URL('students','students_register_ts')}}">Registrar Estudiante TS</a>
+</div>
+<div id="student-list-container"></div>
+
+<script type="module" src="{{=URL('static', 'js/initStudentList.js')}}"></script>

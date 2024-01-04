@@ -1,43 +1,33 @@
-import { Student } from "../models/Student";
-import { validateStudent } from "../utils/Validator";
-
-export class StudentFormRenderer {
-    private formElement: HTMLFormElement;
-    private onSubmit: (student: Student) => void;
-
-    constructor(onSubmit: (student: Student) => void) {
+import { validateStudent } from "../utils/Validator.js";
+export class StudentEditRenderer {
+    constructor(onSubmit) {
         this.formElement = document.createElement('form');
         this.formElement.className = 'container mt-3';
-        this.formElement.onsubmit = (event: Event) => this.handleSubmit(event);
-        this.onSubmit = onSubmit;
+        this.formElement.onsubmit = (event) => this.handleSubmit(event);
+        this.onSubmit = onSubmit; // Guarda la función de callback para su uso posterior
     }
-
-    private createInputField(name: string, placeholder: string, value: string = "", type: string = "text"): HTMLElement {
+    createInputField(name, placeholder, value, type = "text") {
         const inputGroup = document.createElement('div');
         inputGroup.className = 'form-group';
-
         const input = document.createElement('input');
         input.type = type;
         input.name = name;
         input.placeholder = placeholder;
-        input.value = value;  // Se agrega la asignación del valor
+        input.value = value;
         input.required = true;
         input.className = 'form-control';
-
         inputGroup.appendChild(input);
         return inputGroup;
     }
-
-    private getFormData(): Student {
-        const name = (this.formElement.elements.namedItem('name') as HTMLInputElement)?.value ?? '';
-        const lastname = (this.formElement.elements.namedItem('lastname') as HTMLInputElement)?.value ?? '';
-        const phone = (this.formElement.elements.namedItem('phone') as HTMLInputElement)?.value ?? '';
-        const email = (this.formElement.elements.namedItem('email') as HTMLInputElement)?.value ?? '';
-
+    getFormData() {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        const name = (_b = (_a = this.formElement.elements.namedItem('name')) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : '';
+        const lastname = (_d = (_c = this.formElement.elements.namedItem('lastname')) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : '';
+        const phone = (_f = (_e = this.formElement.elements.namedItem('phone')) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : '';
+        const email = (_h = (_g = this.formElement.elements.namedItem('email')) === null || _g === void 0 ? void 0 : _g.value) !== null && _h !== void 0 ? _h : '';
         return { name, lastname, phone, email };
     }
-
-    private handleSubmit(event: Event): void {
+    handleSubmit(event) {
         event.preventDefault();
         const studentData = this.getFormData();
         const errors = validateStudent(studentData);
@@ -47,31 +37,25 @@ export class StudentFormRenderer {
         }
         this.onSubmit(studentData); // Llama al callback con los datos del formulario
     }
-
-    render(student: Student = { name: '', lastname: '', phone: '', email: '' }): HTMLElement {
+    render(student) {
         this.formElement.innerHTML = '';
-
-        // Definir los campos del formulario
         const fields = [
             { name: 'name', placeholder: 'Nombre', type: 'text', value: student.name },
             { name: 'lastname', placeholder: 'Apellido', type: 'text', value: student.lastname },
             { name: 'phone', placeholder: 'Teléfono', type: 'tel', value: student.phone },
             { name: 'email', placeholder: 'Correo Electrónico', type: 'email', value: student.email }
         ];
-
         // Iterar y agregar cada campo al formulario
         fields.forEach(field => {
             const inputGroup = this.createInputField(field.name, field.placeholder, field.value, field.type);
             this.formElement.appendChild(inputGroup); // Agrega el grupo de entrada
         });
-
         // Botón de envío
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
         submitButton.className = 'btn btn-primary mt-3';
-        submitButton.textContent = 'Registrar Estudiante';
+        submitButton.textContent = 'Actualizar Estudiante';
         this.formElement.appendChild(submitButton);
-
         return this.formElement;
     }
 }

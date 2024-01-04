@@ -5,6 +5,7 @@
 <div id="student-btn-create" class="w-100 d-flex justify-content-end mb-4">
     <a class="item btn btn-primary" href="{{=URL('students','students_list_ts')}}">Ir al Listado</a>
 </div>
-<div id="student-form-container"></div>
+<input type="hidden" id="student_id" name="student_id" value="{{=student_id}}">
+<div id="student-detail-container"></div>
 
-<script type="module" src="{{=URL('static', 'js/initStudentForm.js')}}"></script>
+<script type="module" src="{{=URL('static', 'js/initStudentDetail.js')}}"></script>

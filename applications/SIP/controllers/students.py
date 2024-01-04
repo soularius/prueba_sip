@@ -8,6 +8,17 @@ def index():
 def students_register_ts():
     return dict(tittle="Registro de Estudiante")
 
+def students_list_ts():
+    return dict(tittle="Listado de Estudiantes")
+
+def students_view_ts():
+    student_id = request.args(0, cast=int)
+    return dict(tittle="Detalle de Estudiante", student_id=student_id)
+
+def students_edit_ts():
+    student_id = request.args(0, cast=int)
+    return dict(tittle="Editar Estudiante", student_id=student_id)
+
 def api_list_student():
     page = int(request.vars.page or 1)
     page_size = int(request.vars.page_size or 10)
@@ -50,3 +61,8 @@ def api_delete_student():
         return response.json(result)
     else:
         return response.json({'status': 'error', 'error_message': 'Invalid request'})
+    
+def api_total_students():
+    api_student = APIStudent(db)
+    result = api_student.get_total_students()
+    return response.json(result)

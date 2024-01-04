@@ -1,7 +1,7 @@
 import { Student } from "../models/Student";
 import { validateStudent } from "../utils/Validator";
 
-export class StudentFormRenderer {
+export class StudentEditRenderer {
     private formElement: HTMLFormElement;
     private onSubmit: (student: Student) => void;
 
@@ -9,24 +9,24 @@ export class StudentFormRenderer {
         this.formElement = document.createElement('form');
         this.formElement.className = 'container mt-3';
         this.formElement.onsubmit = (event: Event) => this.handleSubmit(event);
-        this.onSubmit = onSubmit;
+        this.onSubmit = onSubmit; // Guarda la función de callback para su uso posterior
     }
 
-    private createInputField(name: string, placeholder: string, value: string = "", type: string = "text"): HTMLElement {
+    private createInputField(name: string, placeholder: string, value: string, type: string = "text"): HTMLElement {
         const inputGroup = document.createElement('div');
         inputGroup.className = 'form-group';
-
+    
         const input = document.createElement('input');
         input.type = type;
         input.name = name;
         input.placeholder = placeholder;
-        input.value = value;  // Se agrega la asignación del valor
+        input.value = value;
         input.required = true;
         input.className = 'form-control';
-
+    
         inputGroup.appendChild(input);
         return inputGroup;
-    }
+    }   
 
     private getFormData(): Student {
         const name = (this.formElement.elements.namedItem('name') as HTMLInputElement)?.value ?? '';
@@ -48,10 +48,9 @@ export class StudentFormRenderer {
         this.onSubmit(studentData); // Llama al callback con los datos del formulario
     }
 
-    render(student: Student = { name: '', lastname: '', phone: '', email: '' }): HTMLElement {
+    render(student: Student): HTMLElement {
         this.formElement.innerHTML = '';
 
-        // Definir los campos del formulario
         const fields = [
             { name: 'name', placeholder: 'Nombre', type: 'text', value: student.name },
             { name: 'lastname', placeholder: 'Apellido', type: 'text', value: student.lastname },
@@ -69,7 +68,7 @@ export class StudentFormRenderer {
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
         submitButton.className = 'btn btn-primary mt-3';
-        submitButton.textContent = 'Registrar Estudiante';
+        submitButton.textContent = 'Actualizar Estudiante';
         this.formElement.appendChild(submitButton);
 
         return this.formElement;
