@@ -2,13 +2,7 @@ import unittest
 from mock import Mock
 from gluon import DAL, URL
 from gluon.globals import Request, Response, Session
-from applications.SIP.controllers.attendances import attendance_view
-from applications.SIP.controllers.attendances import attendance_update
-from applications.SIP.controllers.attendances import api_create_attendance
-from applications.SIP.controllers.attendances import api_list_attendance
-from applications.SIP.controllers.attendances import api_get_attendance
-from applications.SIP.controllers.attendances import api_update_attendance
-from applications.SIP.controllers.attendances import api_delete_attendance
+from applications.SIP.controllers.attendances import *
 
 from applications.SIP.modules.models.student import Student
 from applications.SIP.modules.models.day_of_week import DayOfWeek
