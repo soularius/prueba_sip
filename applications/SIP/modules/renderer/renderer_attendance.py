@@ -5,7 +5,7 @@ class RendererAttendance:
         self.db = db
 
     def render_view(self, attendance_records):
-        rows = [TR(TH("ID"), TH("Estudiante"), TH("Salón"), TH("Materia"), TH("Asistencia"))]
+        rows = [TR(TH("ID"), TH("Estudiante"), TH("Salón"), TH("Materia"), TH("Asistencia PY"), TH("Asistencia API"))]
 
         for record in attendance_records:
             # Aquí, record es una instancia de Row de la tabla attendance
@@ -26,9 +26,16 @@ class RendererAttendance:
                 OPTION("❌", _value="0", _selected=current_status == "0"),
                 _name=f"status_{record.id}",
                 _onchange=f"ajax('{ajax_url}', ['status_{record.id}'], ':eval')"
+            );
+
+            attendance_select_API = SELECT(
+                OPTION("✔️", _value="1", _selected=current_status == "1"),
+                OPTION("❌", _value="0", _selected=current_status == "0"),
+                _name=f"status_ajax_{record.id}",
+                _onchange=f"updateAttendanceStatus({record.id}, this.value)"
             )
 
-            row = TR(TD(record.id), TD(student_name), TD(salon_name), TD(subject_name), TD(attendance_select))
+            row = TR(TD(record.id), TD(student_name), TD(salon_name), TD(subject_name), TD(attendance_select), TD(attendance_select_API))
             rows.append(row)            
 
         return TABLE(*rows, _class="table")
