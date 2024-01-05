@@ -28,7 +28,7 @@ class DayOfWeekFactory(metaclass=SingletonMeta):
         if day_name in self.cache:
             return self.cache[day_name]
 
-        day = self.db.day_of_week(name=day_name).select().first()
+        day = self.db(self.db.day_of_week.name == day_name).select().first()
         if day:
             self.cache[day_name] = day
             return day
