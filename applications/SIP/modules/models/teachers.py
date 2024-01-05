@@ -5,10 +5,10 @@ class Teachers:
     def define_table(self):
         if 'teachers' not in self.db.tables:
             self.db.define_table('teachers',
-                            Field('name', 'string', length=55),
-                            Field('lastname', 'string', length=55),
-                            Field('phone', 'string', length=55),
-                            Field('email', 'string', length=45, unique=True))
+                            Field('name', 'string', length=55, required=True),
+                            Field('lastname', 'string', length=55, required=True),
+                            Field('phone', 'string', length=55, required=True),
+                            Field('email', 'string', length=45, unique=True, required=True))
 
             # Validation for 'teachers'
             self.db.teachers.name.requires = IS_NOT_EMPTY()

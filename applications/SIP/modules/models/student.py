@@ -5,10 +5,10 @@ class Student:
     def define_table(self):
         if 'students' not in self.db.tables:
             self.db.define_table('students',
-                                 Field('name', 'string', length=55),
-                                 Field('lastname', 'string', length=55),
-                                 Field('phone', 'string', length=55),
-                                 Field('email', 'string', length=55, unique=True))
+                                 Field('name', 'string', length=55, required=True),
+                                 Field('lastname', 'string', length=55, required=True),
+                                 Field('phone', 'string', length=55, required=True),
+                                 Field('email', 'string', length=55, unique=True, required=True))
 
             # validation for 'students'
             self.db.students.name.requires = IS_NOT_EMPTY()

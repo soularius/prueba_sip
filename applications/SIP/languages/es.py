@@ -124,6 +124,7 @@
 'Email sent': 'Correo electrónico enviado',
 'Email verification': 'Email verification',
 'Email verified': 'Email verified',
+'Enter a value': 'Enter a value',
 'Errors': 'Errores',
 'Estatus de asistencia': 'Estatus de asistencia',
 'Estudiante': 'Estudiante',

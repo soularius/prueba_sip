@@ -6,8 +6,8 @@ class Schedules:
     def define_table(self):
         if 'schedules' not in self.db.tables:
             self.db.define_table('schedules',
-                            Field('block_start', 'time'),
-                            Field('block_end', 'time'))
+                            Field('block_start', 'time', required=True),
+                            Field('block_end', 'time', required=True))
 
             # validation for 'schedules'
             self.db.schedules.block_start.requires = IS_NOT_EMPTY()

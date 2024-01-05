@@ -5,8 +5,8 @@ class Subjects:
     def define_table(self):
         if 'subjects' not in self.db.tables:
             self.db.define_table('subjects',
-                            Field('name', 'string', length=55),
-                            Field('description', 'text'))
+                            Field('name', 'string', length=55, required=True),
+                            Field('description', 'text', required=True))
 
             # Validation for 'subjects'
             self.db.subjects.name.requires = IS_NOT_EMPTY()
