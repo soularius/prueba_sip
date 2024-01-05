@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "6f1bedbb-aae2-4961-b3c8-fa7e73a301fd",
+		"name": "Attendance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27350362"
+	},
+	"item": [
+		{
+			"name": "List Attendance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_list_attendance?page=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_list_attendance"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Attendance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_get_attendance/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_get_attendance",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Attendance",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"classes_students_id\": 20,\r\n    \"date_class\": \"2023-09-27\",\r\n    \"status\": 0,\r\n    \"note\": \"Three speech popular million go full. Then evidence him magazine officer. Ahead executive class attention.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_update_attendance/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_update_attendance",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Attendance",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_delete_attendance/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_delete_attendance",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Attendance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"classes_students_id\": 20,\r\n    \"date_class\": \"2023-10-27\",\r\n    \"status\": 1,\r\n    \"note\": \"Three speech popular million go full. Then evidence him magazine officer. Ahead executive class attention.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_create_attendance",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_create_attendance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Attendance Parcial",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": 0,\r\n    \"note\": \"Three speech popular million go full. Then evidence him magazine officer. Ahead executive class attention.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/SIP/attendances/api_update_attendance/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"SIP",
+						"attendances",
+						"api_update_attendance",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
