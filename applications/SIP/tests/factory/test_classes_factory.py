@@ -60,13 +60,13 @@ class TestClassesFactory(unittest.TestCase):
 
     def test_create_class(self):
         # Prueba de creación de una clase
-        class_data = {'code': 'CLS101', 'salon_id': 1, 'subject_id': 1, 'schedule_id' : 1, 'teacher_id': 1, 'day_of_week_id': 1}
+        class_data = {'code': 'CLS101', 'salon_id': 6, 'subject_id': 6, 'schedule_id' : 6, 'teacher_id': 6, 'day_of_week_id': 6}
         class_obj = self.factory.get_or_create_class(class_data)
         self.assertIn(class_obj.id, self.factory.cache)
 
     def test_read_class(self):
         # Prueba de recuperación de una clase
-        class_data = {'code': 'CLS101', 'salon_id': 1, 'subject_id': 1, 'schedule_id' : 1, 'teacher_id': 1, 'day_of_week_id': 1}
+        class_data = {'code': 'CLS101', 'salon_id': 6, 'subject_id': 6, 'schedule_id' : 6, 'teacher_id': 6, 'day_of_week_id': 6}
         created_class = self.factory.get_or_create_class(class_data)
         fetched_class = self.factory.get_class(created_class.id)
         self.assertEqual(fetched_class.id, created_class.id)
@@ -81,7 +81,7 @@ class TestClassesFactory(unittest.TestCase):
 
     def test_delete_class(self):
         # Prueba de eliminación de una clase
-        class_id = 1 # Asume un ID existente
+        class_id = 4 # Asume un ID existente
         self.factory.delete_class(class_id)
         self.assertNotIn(class_id, self.factory.cache)
 

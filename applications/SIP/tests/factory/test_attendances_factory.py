@@ -60,13 +60,13 @@ class TestAttendanceFactory(unittest.TestCase):
 
     def test_create_attendance(self):
         # Crear una asistencia y comprobar que se añade a la caché
-        attendance_data = {'classes_students_id': '2', 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
+        attendance_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         attendance = self.factory.get_or_create_attendance(attendance_data)
         self.assertIn(attendance.id, self.factory.cache)
 
     def test_read_attendance(self):
         # Crear y luego recuperar una asistencia
-        attendance_data = {'classes_students_id': '2', 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
+        attendance_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         created_attendance = self.factory.get_or_create_attendance(attendance_data)
         fetched_attendance = self.factory.get_attendance(created_attendance.id)
         self.assertEqual(fetched_attendance.id, created_attendance.id)
@@ -74,14 +74,14 @@ class TestAttendanceFactory(unittest.TestCase):
     def test_update_attendance(self):
         # Actualizar una asistencia
         attendance_id = 2
-        updated_data = {'classes_students_id': '2', 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
+        updated_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         self.factory.update_attendance(attendance_id, updated_data)
         updated_attendance = self.factory.get_attendance(attendance_id)
         self.assertEqual(updated_attendance.date_class, '2023-01-01')
 
     def test_delete_attendance(self):
         # Eliminar una asistencia
-        attendance_id = 1
+        attendance_id = 4
         self.factory.delete_attendance(attendance_id)
         self.assertNotIn(attendance_id, self.factory.cache)
 

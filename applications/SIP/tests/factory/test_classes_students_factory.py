@@ -60,13 +60,13 @@ class TestClassesStudentsFactory(unittest.TestCase):
 
     def test_create_classes_student(self):
         # Prueba de creación de una relación clase-estudiante
-        classes_student_data = {'section_class': 'SEC101', 'classes_id': 2, 'student_id': 2}
+        classes_student_data = {'section_class': 'SEC101', 'classes_id': 6, 'student_id': 6}
         classes_student_obj = self.factory.get_or_create_classes_student(classes_student_data)
         self.assertIn(classes_student_obj.id, self.factory.cache)
 
     def test_read_classes_student(self):
         # Prueba de recuperación de una relación clase-estudiante
-        classes_student_data = {'section_class': 'SEC102', 'classes_id': 3, 'student_id': 4}
+        classes_student_data = {'section_class': 'SEC102', 'classes_id': 6, 'student_id': 6}
         created_classes_student = self.factory.get_or_create_classes_student(classes_student_data)
         fetched_classes_student = self.factory.get_classes_student(created_classes_student.id)
         self.assertEqual(fetched_classes_student.id, created_classes_student.id)
@@ -74,14 +74,14 @@ class TestClassesStudentsFactory(unittest.TestCase):
     def test_update_classes_student(self):
         # Prueba de actualización de una relación clase-estudiante
         classes_student_id = 2 # Asume un ID existente
-        updated_data = {'section_class': 'SEC106', 'classes_id': 5, 'student_id': 6}
+        updated_data = {'section_class': 'SEC106', 'classes_id': 6, 'student_id': 6}
         self.factory.update_classes_student(classes_student_id, updated_data)
         updated_classes_student = self.factory.get_classes_student(classes_student_id)
         self.assertEqual(updated_classes_student.section_class, 'SEC106')
 
     def test_delete_classes_student(self):
         # Prueba de eliminación de una relación clase-estudiante
-        classes_student_id = 1 # Asume un ID existente
+        classes_student_id = 4 # Asume un ID existente
         self.factory.delete_classes_student(classes_student_id)
         self.assertNotIn(classes_student_id, self.factory.cache)
 

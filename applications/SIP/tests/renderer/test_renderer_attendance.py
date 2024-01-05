@@ -47,6 +47,7 @@ class TestRendererAttendance(unittest.TestCase):
         Classes(cls.db).define_table()
         ClassesStudents(cls.db).define_table()
         Attendance(cls.db).define_table()
+        FakeGenerateController(cls.db).static_data_generate()
         FakeGenerateController(cls.db).index()
         current.db = cls.db
     def setUp(self):
