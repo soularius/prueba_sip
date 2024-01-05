@@ -31,7 +31,7 @@ def api_list_student():
     request = current.request
     response = current.response
     page = int(request.vars.page or 1)
-    page_size = int(request.vars.page_size or 10)
+    page_size = int(request.vars.page_size or 50)
     api_student = APIStudent(db)
     students = api_student.list_student(page, page_size)
     return response.json(students)

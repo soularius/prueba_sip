@@ -59,7 +59,7 @@ export class StudentRepository {
         });
     }
 
-    async getTotalPages(itemsPerPage: number = 10): Promise<number> {
+    async getTotalPages(itemsPerPage: number = 50): Promise<number> {
         // Suponiendo que tienes un endpoint que devuelve el total de estudiantes
         const response = await fetch(`/SIP/students/api_total_students`);
         const totalStudents = await response.json();
