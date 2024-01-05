@@ -15,6 +15,7 @@ def attendance_view():
     response = current.response
     page = int(request.args[0]) if request.args and request.args[0].isdigit() else 1
     items_per_page = 10
+    total_pages = 0
 
     attendance_factory = AttendanceFactory(current.db)
     total_records = current.db(current.db.attendance).count()  # Se mantiene para contar los registros
@@ -22,7 +23,7 @@ def attendance_view():
 
     if total_records == 0:
         response.flash = "No hay registros de asistencia disponibles."
-        return dict(table=None, items_per_page=items_per_page, page=page)
+        return dict(table="Sin registros existentes", items_per_page=items_per_page, page=page, total_pages=total_pages)
 
     if page > total_pages:
         redirect(URL('attendance_view', args=[total_pages if total_pages > 0 else 1]))
