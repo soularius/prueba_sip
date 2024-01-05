@@ -93,6 +93,11 @@ class TestClassesFactory(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.db.rollback()
+        from gluon.globals import current
+        current.request = None
+        current.response = None
+        current.session = None
+        current.db = None
 
 if __name__ == '__main__':
     unittest.main()

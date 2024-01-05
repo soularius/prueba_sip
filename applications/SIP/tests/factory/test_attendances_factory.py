@@ -92,6 +92,7 @@ class TestAttendanceFactory(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        cls.db.rollback()
         from gluon.globals import current
         current.request = None
         current.response = None

@@ -42,13 +42,13 @@ class TestStudentFactory(unittest.TestCase):
 
     def test_create_student(self):
         # Prueba la creación de un estudiante
-        student_data = {'name': 'John', 'lastname': 'Doe', 'email': 'john.doe@example.com'}
+        student_data = {'name': 'John', 'lastname': 'Doe', 'email': 'john.doe@example.com', 'phone': '12345678'}
         student = self.factory.get_or_create_student(student_data)
         self.assertIn(student.id, self.factory.cache)
 
     def test_get_student(self):
         # Prueba la recuperación de un estudiante
-        student_data = {'name': 'Jane', 'lastname': 'Doe', 'email': 'jane.doe@example.com'}
+        student_data = {'name': 'Jane', 'lastname': 'Doe', 'email': 'jane.doe@example.com', 'phone': '33345678'}
         created_student = self.factory.get_or_create_student(student_data)
         fetched_student = self.factory.get_student(created_student.id)
         self.assertEqual(fetched_student.id, created_student.id)
