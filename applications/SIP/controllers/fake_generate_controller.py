@@ -24,3 +24,15 @@ class FakeGenerateController:
         FakeDataClassesStudentsGenerator(self.db).generate_classes_students(250)
         FakeDataAttendanceGenerator(self.db).generate_attendance(300)
         return dict(message="Datos generados exitosamente")
+
+    def static_data_generate(self):
+        FakeDataStudentGenerator(self.db).generate_static_student()
+        FakeDataTeacherGenerator(self.db).generate_static_teacher()
+        FakeDataScheduleGenerator(self.db).generate_schedules(1)
+        FakeDataSubjectGenerator(self.db).generate_static_subject()
+        FakeDataSalonGenerator(self.db).generate_static_salon()
+        FakeDataDayOfWeekGenerator(self.db).generate_days_of_week()
+        FakeDataClassesGenerator(self.db).generate_static_class()
+        FakeDataClassesStudentsGenerator(self.db).generate_static_classes_students()
+        FakeDataAttendanceGenerator(self.db).generate_static_attendance()
+        return dict(message="Datos generados exitosamente")

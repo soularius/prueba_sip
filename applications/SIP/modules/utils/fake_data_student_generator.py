@@ -9,18 +9,17 @@ class FakeDataStudentGenerator:
 
     def generate_static_student(self):
         # Generar un estudiante estático
-        student_data = {
-            'id': 1,
-            'name': "Marta",
-            'lastname': "Salcedo",
-            'phone': "123456789",
-            'email': "marta.salcedo@example.es"
-        }
-        self.student_factory.get_or_create_student(student_data)
+        if not self.db(self.db.students.email == "marta.salcedo@example.es").select().first():
+            student_data = {
+                'id': 1,
+                'name': "Marta",
+                'lastname': "Salcedo",
+                'phone': "123456789",
+                'email': "marta.salcedo@example.es"
+            }
+            self.student_factory.get_or_create_student(student_data)
 
     def generate_students(self, num_records):
-        # Primero, generar datos estáticos
-        self.generate_static_student()
 
         for _ in range(num_records):
             student_data = {

@@ -13,23 +13,21 @@ class FakeDataAttendanceGenerator:
 
     def generate_static_attendance(self):
         # Generar un estudiante estático
-        attendance_data = {
-            'id': 1,
-            'classes_students_id': 1,
-            'date_class': self.fake.date_between(start_date="-1y", end_date="today"),
-            'status': 1,
-            'note': "Lorem ipsum dolor sit amet, consectetur adip A63, sed diam nonumy"
-        }
-        self.attendance_factory.get_or_create_attendance(attendance_data)
+        if not self.db(self.db.attendance.note == "A63A01A45T").select().first():
+            attendance_data = {
+                'id': 1,
+                'classes_students_id': 1,
+                'date_class': self.fake.date_between(start_date="-1y", end_date="today"),
+                'status': 1,
+                'note': "A63A01A45T"
+            }
+            self.attendance_factory.get_or_create_attendance(attendance_data)
 
     def generate_attendance(self, num_records):
         classes_students_ids = [cs.id for cs in self.classes_students_factory.list_classes_students()]
 
         if not classes_students_ids:
             return
-        
-        # Primero, generar datos estáticos
-        self.generate_static_attendance()
 
         for _ in range(num_records):
             date_class = self.fake.date_between(start_date="-1y", end_date="today")
