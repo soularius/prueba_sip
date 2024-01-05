@@ -14,10 +14,10 @@ import { StudentEditRenderer } from "../renderer/StudentEditRenderer.js";
 import { StudentFormRenderer } from "../renderer/StudentFormRenderer.js";
 import { validateStudent } from "../utils/Validator.js";
 export class StudentController {
-    constructor() {
+    constructor(repository) {
         this.container = null;
         this.currentPage = 1;
-        this.studentRepository = new StudentRepository();
+        this.studentRepository = repository || new StudentRepository();
         this.studentListRenderer = new StudentListRenderer(this);
         this.studentFormRenderer = new StudentFormRenderer(this.handleCreateStudent.bind(this));
     }

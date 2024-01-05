@@ -1,13 +1,25 @@
 {
   "compilerOptions": {
     "target": "es6",           // Establece la versión del lenguaje JavaScript objetivo
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "module": "esnext",         // Establece el módulo de lenguaje JavaScript
-    "esModuleInterop": false,           // Permite interoperabilidad de módulos ES6
+    "esModuleInterop": true,           // Permite interoperabilidad de módulos ES6
     "forceConsistentCasingInFileNames": true,  // Asegura consistencia en las mayúsculas y minúsculas de los nombres de archivos
     "strict": true,                    // Habilita todas las opciones estrictas de verificación de tipos
     "outDir": "../static/js/compiled_ts",  // Directorio de salida para los archivos JS compilados
     "skipLibCheck": true,               // Omite la verificación de tipos en archivos de declaración
     "allowSyntheticDefaultImports": false,  // Permite la importación de módulos por defecto de forma sintacticamente incorrecta
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
   },
   "include": ["**/*"]
 }

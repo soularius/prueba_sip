@@ -39,10 +39,11 @@ export class StudentRepository {
                 if (!response.ok) {
                     throw new Error('Error al obtener la lista de estudiantes');
                 }
-                const students = yield response.json();
-                if (students.http_status !== 200)
-                    throw new Error(students.http_status);
-                return students.students;
+                const data = yield response.json();
+                if (data.http_status !== 200) {
+                    throw new Error(data.message || 'Error en la respuesta de la API');
+                }
+                return data.students || [];
             }
             catch (error) {
                 console.error('Error al obtener la lista de estudiantes:', error);
@@ -75,7 +76,7 @@ export class StudentRepository {
             });
         });
     }
-    getTotalPages(itemsPerPage = 10) {
+    getTotalPages(itemsPerPage = 50) {
         return __awaiter(this, void 0, void 0, function* () {
             // Suponiendo que tienes un endpoint que devuelve el total de estudiantes
             const response = yield fetch(`/SIP/students/api_total_students`);

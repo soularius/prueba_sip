@@ -13,8 +13,8 @@ export class StudentController {
     private container: HTMLElement | null = null;
     private currentPage: number = 1;
 
-    constructor() {
-        this.studentRepository = new StudentRepository();
+    constructor(repository?: StudentRepository) {
+        this.studentRepository = repository || new StudentRepository();
         this.studentListRenderer = new StudentListRenderer(this);
         this.studentFormRenderer = new StudentFormRenderer(this.handleCreateStudent.bind(this));
     }

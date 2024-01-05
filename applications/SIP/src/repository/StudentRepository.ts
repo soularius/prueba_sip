@@ -1,5 +1,4 @@
 import { Student } from "../models/Student";
-
 export class StudentRepository {
     async getStudent(id: number): Promise<Student | null> {
         try {
@@ -11,13 +10,13 @@ export class StudentRepository {
             const result = await response.json();
             if (result.status === 'error') {
                 // Maneja el caso de "Student not found" o errores similares
-                console.error(result.message); // O muestra un mensaje al usuario
+                alert(result.message); // O muestra un mensaje al usuario
                 return null;
             }
             if(result.http_status !== 200) throw new Error(result.http_status)
             return result.student;
         } catch (error) {
-            console.error('Error al obtener el estudiante:', error);
+            alert(`Error al obtener el estudiante: ${error}`);
             return null;
         }
     }
@@ -28,11 +27,13 @@ export class StudentRepository {
             if (!response.ok) {
                 throw new Error('Error al obtener la lista de estudiantes');
             }
-            const students = await response.json();
-            if(students.http_status !== 200) throw new Error(students.http_status)
-            return students.students;
+            const data = await response.json();
+            if (data.http_status !== 200) {
+                throw new Error(data.message || 'Error en la respuesta de la API');
+            }
+            return data.students || [];
         } catch (error) {
-            console.error('Error al obtener la lista de estudiantes:', error);
+            alert(`Error al obtener la lista de estudiantes: ${error}`);
             return null;
         }
     }
