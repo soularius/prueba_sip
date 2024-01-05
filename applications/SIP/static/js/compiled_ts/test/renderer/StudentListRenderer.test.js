@@ -1,22 +1,28 @@
 import { StudentListRenderer } from '../../renderer/StudentListRenderer.js';
 import { StudentController } from '../../controller/StudentController.js';
 import '@testing-library/jest-dom';
+// Describes test suite for StudentListRenderer
 describe('StudentListRenderer', () => {
     let renderer;
     let mockController;
     beforeEach(() => {
+        // Initialize mock controller and the StudentListRenderer before each test
         mockController = new StudentController();
         mockController.deleteStudent = jest.fn();
         renderer = new StudentListRenderer(mockController);
         global.confirm = jest.fn().mockReturnValue(true);
     });
+    // Test to ensure a table with student data is rendered correctly
     test('should render a table with student data', () => {
+        // Define mock students data
         const students = [
             { id: 1, name: 'Juan', lastname: 'Perez', phone: '123456789', email: 'juan@example.com' },
             { id: 2, name: 'Mary', lastname: 'Mart', phone: '5656456456', email: 'mary@example.com' },
-            // ... otros estudiantes ...
+            //... other students ...
         ];
+        // Render student list using the renderer
         const divContent = renderer.render(students, 1, 3, mockController);
+        // Assertions to verify table rendering
         expect(divContent.className).toBe('container');
         expect(divContent.querySelector('table')).not.toBeNull();
         expect(divContent.querySelectorAll('tbody tr').length).toBe(students.length);
@@ -26,20 +32,27 @@ describe('StudentListRenderer', () => {
         expect(divContent.textContent).toContain('juan@example.com');
     });
     test('should render pagination correctly', () => {
-        const students = [ /* ... datos de estudiantes ... */];
+        // Define mock students data
+        const students = [
+            { id: 1, name: 'Juan', lastname: 'Perez', phone: '123456789', email: 'juan@example.com' },
+            { id: 2, name: 'Mary', lastname: 'Mart', phone: '5656456456', email: 'mary@example.com' },
+            //... other students ...
+        ];
+        // Render student list with pagination using the renderer
         const divContent = renderer.render(students, 1, 3, mockController);
         expect(divContent.querySelector('nav')).not.toBeNull();
         expect(divContent.querySelectorAll('ul.pagination li').length).toBeGreaterThan(0);
         // Verificar que los botones de paginación están presentes y tienen el comportamiento esperado
     });
+    // Assertions to verify pagination rendering
     test('should render action buttons and links for each student', () => {
         window.alert = jest.fn();
         const students = [
             { id: 1, name: 'Juan', lastname: 'Perez', phone: '123456789', email: 'juan@example.com' },
-            // Agrega más estudiantes si es necesario
+            // Add more students if necessary
         ];
         const divContent = renderer.render(students, 1, 3, mockController);
-        // Verificar que cada fila tenga los botones de acción
+        // Verify that each row has the action buttons
         students.forEach((student, index) => {
             const tr = divContent.querySelectorAll('tbody tr')[index];
             expect(tr).not.toBeNull();
@@ -49,6 +62,7 @@ describe('StudentListRenderer', () => {
             expect(viewLink).not.toBeNull();
             expect(editLink).not.toBeNull();
             expect(deleteButton).not.toBeNull();
+            // Simulate delete button click and assert controller behavior
             if (deleteButton) {
                 deleteButton.click();
                 expect(mockController.deleteStudent).toHaveBeenCalledWith(student.id);

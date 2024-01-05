@@ -1,11 +1,17 @@
 import { Student } from "../models/Student";
 
 export class StudentDetailsRenderer {
+    /**
+     * Renders the given student object as an HTML element.
+     *
+     * @param {Student} student - The student object to be rendered.
+     * @return {HTMLElement} - The HTML element representing the student details.
+     */
     render(student: Student): HTMLElement {
         const div = document.createElement('div');
         div.className = 'container mt-3'; // Clase de Bootstrap para contenedor
 
-        // Uso de una tabla Bootstrap para mostrar los detalles
+        // Using a Bootstrap table to display details
         div.innerHTML = `
             <table class="table table-dark">
                 <tbody>

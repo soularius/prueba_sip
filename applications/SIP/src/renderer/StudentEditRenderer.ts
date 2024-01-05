@@ -5,13 +5,27 @@ export class StudentEditRenderer {
     private formElement: HTMLFormElement;
     private onSubmit: (student: Student) => void;
 
+    /**
+     * Creates a new instance of the constructor.
+     *
+     * @param {Function} onSubmit - The callback function to be executed when the form is submitted.
+     */
     constructor(onSubmit: (student: Student) => void) {
         this.formElement = document.createElement('form');
         this.formElement.className = 'container mt-3';
         this.formElement.onsubmit = (event: Event) => this.handleSubmit(event);
-        this.onSubmit = onSubmit; // Guarda la función de callback para su uso posterior
+        this.onSubmit = onSubmit; // Save the callback function for later use
     }
 
+    /**
+     * Creates an input field element with the specified name, placeholder, value, and type.
+     *
+     * @param {string} name - The name attribute of the input field.
+     * @param {string} placeholder - The placeholder text for the input field.
+     * @param {string} value - The initial value of the input field.
+     * @param {string} [type="text"] - The type of the input field. Defaults to "text".
+     * @return {HTMLElement} The created input field element.
+     */
     private createInputField(name: string, placeholder: string, value: string, type: string = "text"): HTMLElement {
         const inputGroup = document.createElement('div');
         inputGroup.className = 'form-group';
@@ -28,6 +42,11 @@ export class StudentEditRenderer {
         return inputGroup;
     }   
 
+    /**
+     * Retrieves the form data from the HTML form element.
+     *
+     * @return {Student} The student object containing the form data.
+     */
     private getFormData(): Student {
         const name = (this.formElement.elements.namedItem('name') as HTMLInputElement)?.value ?? '';
         const lastname = (this.formElement.elements.namedItem('lastname') as HTMLInputElement)?.value ?? '';
@@ -37,6 +56,12 @@ export class StudentEditRenderer {
         return { name, lastname, phone, email };
     }
 
+    /**
+     * Handles the submission of the form.
+     *
+     * @param {Event} event - The event object representing the form submission.
+     * @return {void} This function does not return a value.
+     */
     private handleSubmit(event: Event): void {
         event.preventDefault();
         const studentData = this.getFormData();
@@ -45,9 +70,15 @@ export class StudentEditRenderer {
             alert(errors.join("\n"));
             return;
         }
-        this.onSubmit(studentData); // Llama al callback con los datos del formulario
+        this.onSubmit(studentData); // Call the callback with the form data
     }
 
+    /**
+     * Render the student information form.
+     *
+     * @param {Student} student - The student object containing the information to be rendered.
+     * @return {HTMLElement} The rendered form element.
+     */
     render(student: Student): HTMLElement {
         this.formElement.innerHTML = '';
 
@@ -58,13 +89,13 @@ export class StudentEditRenderer {
             { name: 'email', placeholder: 'Correo Electrónico', type: 'email', value: student.email }
         ];
 
-        // Iterar y agregar cada campo al formulario
+        // Iterate and add each field to the form
         fields.forEach(field => {
             const inputGroup = this.createInputField(field.name, field.placeholder, field.value, field.type);
-            this.formElement.appendChild(inputGroup); // Agrega el grupo de entrada
+            this.formElement.appendChild(inputGroup); // Add the input group
         });
 
-        // Botón de envío
+        //Submit button
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
         submitButton.className = 'btn btn-primary mt-3';

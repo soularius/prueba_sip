@@ -10,61 +10,68 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { StudentController } from '../../controller/StudentController.js';
 import { StudentRepository } from '../../repository/StudentRepository.js';
 jest.mock('../../repository/StudentRepository');
+// Describes test suite for StudentController
 describe('StudentController', () => {
     let controller;
     let mockRepository;
     beforeEach(() => {
-        // Crear un mock del repositorio
+        // Initialize a mock repository and inject it into the controller before each test
         mockRepository = new StudentRepository();
-        // Inyectar el mock del repositorio en el controlador
         controller = new StudentController(mockRepository);
     });
+    // Test to ensure listStudents method populates the container with the student list
     test('listStudents should populate the container with student list', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Mock data setup
         const mockStudents = [{ id: 1, name: 'Marta', lastname: 'Salcedo', email: 'marta.salcedo@example.es', phone: '123456789' }];
-        // Configurar el comportamiento del mock
         mockRepository.listStudents.mockResolvedValue(mockStudents);
         const container = document.createElement('div');
         yield controller.listStudents(container, 1);
-        // Afirmaciones sobre el contenido del contenedor
+        // Assertions to verify container contents
         expect(container.innerHTML).toContain('Marta');
         expect(container.innerHTML).toContain('Salcedo');
         expect(container.innerHTML).toContain('123456789');
         expect(container.innerHTML).toContain('marta.salcedo@example.es');
     }));
+    // Test to verify viewDetails method displays student details
     test('viewDetails should display student details', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Mock data setup
         const mockStudent = { id: 1, name: 'Marta', lastname: 'Salcedo', email: 'marta.salcedo@example.es', phone: '123456789' };
         mockRepository.getStudent.mockResolvedValue(mockStudent);
         const container = document.createElement('div');
         yield controller.viewDetails(container, 1);
-        // Verificar que se muestra la información del estudiante
+        // Assertions to verify student information display
         expect(container.innerHTML).toContain('Marta');
         expect(container.innerHTML).toContain('Salcedo');
     }));
+    // Test to ensure editStudent method displays an edit form for a student
     test('editStudent should display edit form for the student', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Mock data setup
         const mockStudent = { id: 1, name: 'Marta', lastname: 'Salcedo', email: 'marta.salcedo@example.es', phone: '123456789' };
         mockRepository.getStudent.mockResolvedValue(mockStudent);
         const container = document.createElement('div');
         yield controller.editStudent(container, 1);
-        // Verificar que se muestra el formulario de edición
+        // Assertions to verify edit form display
         expect(container.innerHTML).toContain('Nombre');
         expect(container.innerHTML).toContain('Apellido');
         expect(container.innerHTML).toContain('Teléfono');
         expect(container.innerHTML).toContain('Correo Electrónico');
-        expect(container.innerHTML).toContain('Actualizar Estudiante'); // Texto corregido
+        expect(container.innerHTML).toContain('Actualizar Estudiante');
     }));
+    // Test to verify deleteStudent method deletes a student
     test('deleteStudent should delete a student', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Mock user interactions and repository behavior
         window.alert = jest.fn();
         window.confirm = jest.fn().mockReturnValue(true);
         mockRepository.deleteStudent.mockResolvedValue();
-        // Llamada al método deleteStudent
         yield controller.deleteStudent(1);
-        // Verificar que se llamó al método deleteStudent del repositorio
+        // Assertion to verify delete operation
         expect(mockRepository.deleteStudent).toHaveBeenCalledWith(1);
     }));
+    // Test to ensure createStudent method displays a creation form
     test('createStudent should display create form', () => __awaiter(void 0, void 0, void 0, function* () {
         const container = document.createElement('div');
         yield controller.createStudent(container);
-        // Verificar que se muestra el formulario de creación
+        // Assertions to verify creation form display
         expect(container.innerHTML).toContain('Nombre');
         expect(container.innerHTML).toContain('Apellido');
         expect(container.innerHTML).toContain('Teléfono');

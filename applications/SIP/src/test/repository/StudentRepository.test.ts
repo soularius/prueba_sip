@@ -1,59 +1,74 @@
 import { StudentRepository } from '../../repository/StudentRepository';
-// Importa los mock que necesitas
+// Import necessary mocks
 
+// Describes test suite for StudentRepository
 describe('StudentRepository', () => {
     let studentRepository: StudentRepository;
 
     beforeEach(() => {
+        // Initialize StudentRepository and mock global functions before each test
         studentRepository = new StudentRepository();
         global.fetch = jest.fn();
         global.alert = jest.fn();
     });
 
-    test('getStudent retorna un estudiante cuando la solicitud es exitosa', async () => {
+    // Test to verify successful retrieval of a student
+    test('getStudent returns a student when the request is successful', async () => {
+        // Define mock student data and setup fetch mock
         const mockStudent = { id: 1, name: 'Juan' };
         (global.fetch as jest.Mock).mockResolvedValue({
             ok: true,
             json: () => Promise.resolve({ student: mockStudent, http_status: 200 })
         });
 
+        // Call getStudent and assert the result
         const student = await studentRepository.getStudent(1);
         expect(student).toEqual(mockStudent);
     });
 
-    test('getStudent retorna null si el estudiante no se encuentra', async () => {
+    // Test to verify handling of non-existent student
+    test('getStudent returns null if the student is not found', async () => {
+        // Setup fetch mock for failure response
         (global.fetch as jest.Mock).mockResolvedValue({
             ok: false,
             json: () => Promise.resolve({ status: 'error', message: 'Student not found' })
         });
 
+        // Call getStudent and assert the result
         const student = await studentRepository.getStudent(1);
         expect(student).toBeNull();
     });
 
-    test('listStudents retorna una lista de estudiantes cuando la solicitud es exitosa', async () => {
+    // Test to verify successful retrieval of a list of students
+    test('listStudents returns a list of students when the request is successful', async () => {
+        // Define mock students data and setup fetch mock
         const mockStudents = [{ id: 1, name: 'Juan' }, { id: 2, name: 'Ana' }];
         (global.fetch as jest.Mock).mockResolvedValue({
             ok: true,
             json: () => Promise.resolve({ students: mockStudents, http_status: 200 })
         });
     
+        // Call listStudents and assert the result
         const students = await studentRepository.listStudents(1);
         expect(students).toEqual(mockStudents);
     });
     
-    test('listStudents retorna null si hay un error', async () => {
+    // Test to verify handling of error in student list retrieval
+    test('listStudents returns null if there is an error', async () => {
+        // Setup fetch mock for failure response
         (global.fetch as jest.Mock).mockResolvedValue({
             ok: false,
             json: () => Promise.resolve({ message: 'Error' })
         });
     
+        // Call listStudents and assert the result
         const students = await studentRepository.listStudents(1);
         expect(students).toBeNull();
     });
 
-    test('createStudent llama a fetch con los parámetros correctos', async () => {
-        // Asegúrate de que mockStudent tenga todas las propiedades requeridas
+    // Test to verify correct API call for creating a student
+    test('createStudent calls fetch with the correct parameters', async () => {
+        // Define mock student data
         const mockStudent = {
             name: 'Juan',
             lastname: 'Perez',
@@ -61,8 +76,10 @@ describe('StudentRepository', () => {
             email: 'juan.perez@example.com'
         };
     
+        // Setup fetch mock for successful response
         (global.fetch as jest.Mock).mockResolvedValue({ ok: true });
     
+        // Call createStudent and assert fetch call
         await studentRepository.createStudent(mockStudent);
         expect(global.fetch).toHaveBeenCalledWith('/SIP/students/api_create_student', {
             method: 'POST',
@@ -71,35 +88,48 @@ describe('StudentRepository', () => {
         });
     });
 
-    test('getTotalPages retorna el número total de páginas', async () => {
+    // Test to verify calculation of total pages based on student count
+    test('getTotalPages returns the total number of pages', async () => {
+        // Setup fetch mock with total students count
         (global.fetch as jest.Mock).mockResolvedValue({
             ok: true,
             json: () => Promise.resolve({ total_students: 50 })
         });
     
+        // Call getTotalPages and assert the result
         const totalPages = await studentRepository.getTotalPages(10);
         expect(totalPages).toBe(5);
     });
 
-    test('getStudent maneja errores de red', async () => {
+    // Test to verify handling of network errors in getStudent
+    test('getStudent handles network errors', async () => {
+        // Setup fetch mock to simulate network error
         (global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'));
     
+        // Call getStudent and assert the result
         const student = await studentRepository.getStudent(1);
         expect(student).toBeNull();
     });
 
-    test('listStudents maneja errores de red', async () => {
+    // Test to verify handling of network errors in listStudents
+    test('listStudents handles network errors', async () => {
+        // Setup fetch mock to simulate network error
         (global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'));
     
+        // Call listStudents and assert the result
         const students = await studentRepository.listStudents(1);
         expect(students).toBeNull();
     });
-    
-    test('updateStudent llama a fetch con los parámetros correctos', async () => {
+
+    // Test to verify correct API call for updating a student
+    test('updateStudent calls fetch with the correct parameters', async () => {
+        // Define mock student data
         const mockStudent = { id: 1, name: 'Juan', lastname: 'Perez', phone: '1234567890', email: 'juan.perez@example.com' };
         const mockId = 1;
+        // Setup fetch mock for successful response
         (global.fetch as jest.Mock).mockResolvedValue({ ok: true });
     
+        // Call updateStudent and assert fetch call
         await studentRepository.updateStudent(mockId, mockStudent);
         expect(global.fetch).toHaveBeenCalledWith(`/SIP/students/api_update_student/${mockId}`, {
             method: 'PUT',
@@ -108,30 +138,35 @@ describe('StudentRepository', () => {
         });
     });
     
-    test('deleteStudent llama a fetch con los parámetros correctos', async () => {
+    // Test to verify correct API call for deleting a student
+    test('deleteStudent calls fetch with the correct parameters', async () => {
+        // Define mock student id
         const mockId = 1;
+        // Setup fetch mock for successful response
         (global.fetch as jest.Mock).mockResolvedValue({ ok: true });
     
+        // Call deleteStudent and assert fetch call
         await studentRepository.deleteStudent(mockId);
         expect(global.fetch).toHaveBeenCalledWith(`/SIP/students/api_delete_student/${mockId}`, {
             method: 'DELETE'
         });
     });
     
-    test('Maneja errores al obtener un estudiante', async () => {
-        // Configurar el mock de fetch para simular un error
+    // Test to verify handling of errors when fetching a student
+    test('Handles errors when fetching a student', async () => {
+        // Setup fetch mock to simulate an error
         (global.fetch as jest.Mock).mockRejectedValue(new Error('Error al obtener el estudiante'));
 
-        // Crear un spy en alert antes de ejecutar la función que genera el error
+        // Spy on alert to capture its call
         const alertSpy = jest.spyOn(window, 'alert');
     
-        // Intentar obtener un estudiante para desencadenar el error
+        // Call getStudent to trigger the error
         await studentRepository.getStudent(1);
     
-        // Verificar si se llamó a alert con el mensaje correcto
+        // Assert that alert was called with the correct message
         expect(alertSpy).toHaveBeenCalledWith('Error al obtener el estudiante: Error: Error al obtener el estudiante');
     
-        // Restaurar el comportamiento original de alert
+        // Restore original alert behavior
         alertSpy.mockRestore();
     });
 });

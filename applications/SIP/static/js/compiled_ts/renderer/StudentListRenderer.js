@@ -2,12 +2,21 @@ export class StudentListRenderer {
     constructor(studentController) {
         this.studentController = studentController;
     }
+    /**
+     * Renders a table of students with actions and pagination.
+     *
+     * @param {Student[]} students - an array of student objects
+     * @param {number} currentPage - the current page number
+     * @param {number} totalPages - the total number of pages
+     * @param {StudentController} studentController - an instance of the StudentController class
+     * @return {HTMLElement} - the rendered table element
+     */
     render(students, currentPage, totalPages, studentController) {
         const divContent = document.createElement('div');
         divContent.className = 'container';
         const table = document.createElement('table');
-        table.className = 'table'; // Clase de Bootstrap
-        // Añadir encabezado de tabla
+        table.className = 'table'; // Bootstrap class
+        // Add table header
         const thead = table.createTHead();
         const row = thead.insertRow();
         const headers = ['ID', 'Nombre', 'Apellido', 'Teléfono', 'Email', 'Acciones'];
@@ -17,7 +26,7 @@ export class StudentListRenderer {
             th.className = 'text-center';
             row.appendChild(th);
         });
-        // Añadir filas de tabla
+        // Add table rows
         const tbody = table.createTBody();
         students.forEach(student => {
             const tr = tbody.insertRow();
@@ -57,28 +66,51 @@ export class StudentListRenderer {
         divContent.appendChild(pagination);
         return divContent;
     }
+    /**
+     * Handles the click event on the view.
+     *
+     * @param {number} id - The ID of the item being viewed.
+     */
     handleViewClick(id) {
         const container = this.studentController.getContainer();
         console.log(container);
         if (container)
             this.studentController.viewDetails(container, id);
     }
+    /**
+     * Handle the click event when editing a student.
+     *
+     * @param {number} id - The ID of the student to edit.
+     */
     handleEditClick(id) {
         const container = this.studentController.getContainer();
         if (container)
             this.studentController.editStudent(container, id);
     }
+    /**
+     * Handles the click event for deleting a student.
+     *
+     * @param {number} id - The ID of the student to be deleted.
+     */
     handleDeleteClick(id) {
         const container = this.studentController.getContainer();
         if (container)
             this.studentController.deleteStudent(id);
     }
+    /**
+     * Creates a pagination element based on the current page, total number of pages, and student controller.
+     *
+     * @param {number} currentPage - The current page number.
+     * @param {number} totalPages - The total number of pages.
+     * @param {StudentController} studentController - The student controller object.
+     * @return {HTMLElement} The pagination element.
+     */
     createPagination(currentPage, totalPages, studentController) {
         const nav = document.createElement('nav');
         nav.setAttribute('aria-label', 'Page navigation example');
         const ul = document.createElement('ul');
         ul.className = 'pagination';
-        // Botón para ir a la página anterior
+        // Button to go to the previous page
         const prevLi = document.createElement('li');
         prevLi.className = 'page-item';
         const prevLink = document.createElement('a');
@@ -92,7 +124,7 @@ export class StudentListRenderer {
         };
         prevLi.appendChild(prevLink);
         ul.appendChild(prevLi);
-        // Números de página
+        // Page numbers
         for (let i = 1; i <= totalPages; i++) {
             const li = document.createElement('li');
             li.className = `page-item ${currentPage === i ? 'active' : ''}`;
@@ -107,7 +139,7 @@ export class StudentListRenderer {
             li.appendChild(a);
             ul.appendChild(li);
         }
-        // Botón para ir a la página siguiente
+        // Button to go to the next page
         const nextLi = document.createElement('li');
         nextLi.className = 'page-item';
         const nextLink = document.createElement('a');
