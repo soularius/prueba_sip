@@ -7,12 +7,25 @@ class FakeDataClassesStudentsGenerator:
             self.db = db
             self.classes_students_factory = ClassesStudentsFactory(db)
 
+    def generate_static_classes_students(self):
+        # Generar un estudiante estático
+        classes_student_data = {
+            'id': 1,
+            'section_class': "A45T HOUSTON",
+            'classes_id': 1,
+            'student_id': 1
+        }
+        self.classes_students_factory.get_or_create_classes_student(classes_student_data)
+
     def generate_classes_students(self, num_records):
         student_ids = [student.id for student in self.db(self.db.students.id > 0).select()]
         class_ids = [class_obj.id for class_obj in self.db(self.db.classes.id > 0).select()]
 
         if not student_ids or not class_ids:
             return
+        
+        # Primero, generar datos estáticos
+        self.generate_static_classes_students()
         
         for _ in range(num_records):
             section_name = self.generate_unique_section_name()

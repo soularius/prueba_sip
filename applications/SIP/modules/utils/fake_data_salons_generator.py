@@ -9,7 +9,19 @@ class FakeDataSalonGenerator:
         self.fake = Faker('es_CO')
         self.salon_factory = SalonFactory(db)
 
+    def generate_static_salon(self):
+        salon_data = {
+            'id': 1,
+            'name': "A63",
+            'description': "Lorem ipsum dolor sit amet, consectetur adip A63, sed diam nonumy"
+        }
+        self.salon_factory.get_or_create_salon(salon_data)
+
     def generate_salons(self, num_records):
+
+        # Primero, generar datos estáticos
+        self.generate_static_salon()
+
         for _ in range(num_records):
             salon_name = f"{random.choice(string.ascii_uppercase)}{random.randint(1, 99):02d}"
             salon_data = {
