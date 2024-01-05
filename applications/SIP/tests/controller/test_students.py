@@ -127,7 +127,7 @@ class TestStudentsController(unittest.TestCase):
 
     def test_api_get_student(self):
         # Asegúrate de tener un registro de estudiante válido para probar
-        student_id = '1'  # Reemplaza con un ID válido si es necesario
+        student_id = '2'  # Reemplaza con un ID válido si es necesario
 
         self.request = Request(env={'request_method': 'GET'})
         self.request.application = 'SIP'

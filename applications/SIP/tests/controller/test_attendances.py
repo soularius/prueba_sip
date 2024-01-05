@@ -33,27 +33,31 @@ def setup_clean_session():
     return current
 
 class TestAttendancesController(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.db = DAL('sqlite:memory:')
+        Student(cls.db).define_table()
+        DayOfWeek(cls.db).define_table()
+        Salons(cls.db).define_table()
+        Schedules(cls.db).define_table()
+        Subjects(cls.db).define_table()
+        Teachers(cls.db).define_table()
+        Classes(cls.db).define_table()
+        ClassesStudents(cls.db).define_table()
+        Attendance(cls.db).define_table()
+        FakeGenerateController(cls.db).index()
+        current.db = cls.db
+
     def setUp(self):
         from gluon.globals import current
         current.response = Response()
-
-        self.db = DAL('sqlite:memory:')
-
-        Student(self.db).define_table()
-        DayOfWeek(self.db).define_table()
-        Salons(self.db).define_table()
-        Schedules(self.db).define_table()
-        Subjects(self.db).define_table()
-        Teachers(self.db).define_table()
-        Classes(self.db).define_table()
-        ClassesStudents(self.db).define_table()
-        Attendance(self.db).define_table()
-        controller = FakeGenerateController(self.db).index()
 
         self.SQLFORM = Mock()
         self.SQLFORM.grid = Mock(return_value="Mock Grid")
 
     def test_attendance_view(self):
+        record_id = '2'
         # Configurar el objeto request
         self.request = Request({'wsgi.input': None, 'env': {'request_method': 'GET'}})
         self.request.application = 'SIP'
@@ -62,13 +66,12 @@ class TestAttendancesController(unittest.TestCase):
 
         from gluon.globals import current
         current.request = self.request
-        current.db = self.db
 
         # Obtener un registro de prueba
-        record = self.db.attendance(1)
+        record = self.db.attendance(record_id)
         # Construir la URL
         constructed_url = URL('SIP', 'attendances', 'attendance_update', args=[record.id], extension='json')
-        self.assertEqual(constructed_url, '/SIP/attendances/attendance_update.json/1')
+        self.assertEqual(constructed_url, f'/SIP/attendances/attendance_update.json/{record_id}')
         result = attendance_view()
     
     def test_attendance_update(self):
@@ -88,7 +91,6 @@ class TestAttendancesController(unittest.TestCase):
 
         from gluon.globals import current
         current.request = self.request
-        current.db = self.db
 
         # Llamar a la función de actualización
         response = attendance_update()
@@ -127,7 +129,7 @@ class TestAttendancesController(unittest.TestCase):
         self.assertIn('success', response['status']) 
 
     def test_api_update_attendance(self):
-        attendance_id = '1'  # Reemplaza con un ID válido si es necesario
+        attendance_id = '2'  # Reemplaza con un ID válido si es necesario
 
         env = {'request_method': 'PUT', "PATH_INFO": '/SIP/attendances/api_update_attendance'}
         self.request = Request(env)
@@ -176,17 +178,16 @@ class TestAttendancesController(unittest.TestCase):
     
     def test_api_get_attendance(self):
         # Asegúrate de tener un registro de asistencia válido para probar
-        attendance_id = "1"
+        attendance_id = '3'
 
         self.request = Request(env={'request_method': 'GET'})
         self.request.application = 'SIP'
         self.request.controller = 'attendances'
         self.request.function = 'api_get_attendance'
         self.request.args = [attendance_id]
-
+        
         from gluon.globals import current
         current.request = self.request
-        current.db = self.db
 
         from gluon.http import HTTP
         try:
@@ -221,8 +222,8 @@ class TestAttendancesController(unittest.TestCase):
             response = json.loads(response)
         self.assertEqual(response['http_status'], 200)
 
-    def tearDown(self):
-        # Restablecer el estado de 'current' después de cada prueba
+    @classmethod
+    def tearDownClass(cls):
         from gluon.globals import current
         current.request = None
         current.response = None
