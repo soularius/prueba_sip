@@ -4,10 +4,12 @@
 {{=table}}
 
 <p>
-    {{if page > 0:}}
+    {{if page > 1:}}
     <a href="{{=URL('attendance_view', args=[page-1])}}">Anterior</a>
     {{pass}}
+    {{if page < total_pages:}}
     <a href="{{=URL('attendance_view', args=[page+1])}}">Siguiente</a>
+    {{pass}}
 </p>
 
 <script src="{{=URL('static', 'js/attendanceUpdate.js')}}"></script>

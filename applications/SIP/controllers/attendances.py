@@ -1,6 +1,7 @@
 from applications.SIP.controllers.attendances_controller import AttendancesController
 from applications.SIP.modules.renderer.renderer_attendance import RendererAttendance
 from applications.SIP.modules.services.api_services.api_attendances import APIAttendance
+from applications.SIP.modules.factory.attendance_factory import AttendanceFactory
 from gluon import current
 from gluon.html import URL
 
@@ -10,39 +11,44 @@ def index():
     return controller.index()
 
 def attendance_view():
-    db = current.db
     request = current.request
-    page = int(request.args[0]) if request.args and request.args[0].isdigit() else 0
+    response = current.response
+    page = int(request.args[0]) if request.args and request.args[0].isdigit() else 1
     items_per_page = 10
-    total_records = db(db.attendance).count()
+
+    attendance_factory = AttendanceFactory(current.db)
+    total_records = current.db(current.db.attendance).count()  # Se mantiene para contar los registros
     total_pages = (total_records // items_per_page) + (1 if total_records % items_per_page else 0)
 
-    if page >= total_pages:
-        redirect(URL('attendance_view', args=[total_pages-1 if total_pages > 0 else 0]))
+    if total_records == 0:
+        response.flash = "No hay registros de asistencia disponibles."
+        return dict(table=None, items_per_page=items_per_page, page=page)
 
-    limitby = (page*items_per_page, (page+1)*items_per_page)
+    if page > total_pages:
+        redirect(URL('attendance_view', args=[total_pages if total_pages > 0 else 1]))
 
-    attendance_records = db(db.attendance).select(
-        orderby=db.attendance.id, 
-        limitby=limitby
-    )
+    attendance_records = attendance_factory.list_attendances(page, items_per_page)
 
-    renderer = RendererAttendance(db)
+    renderer = RendererAttendance(current.db)
     attendance_table = renderer.render_view(attendance_records)
 
-    return dict(table=attendance_table, items_per_page=items_per_page, page=page)
+    return dict(table=attendance_table, items_per_page=items_per_page, page=page, total_pages=total_pages)
 
 def attendance_update():
-    db = current.db
     request = current.request
     response = current.response
     record_id = int(request.args[0]) if request.args and request.args[0].isdigit() else 0
     new_status_key = f'status_{record_id}'
     new_status = request.vars.get(new_status_key)
 
+    attendance_factory = AttendanceFactory(current.db)
+
     if record_id and new_status is not None:
-        db(db.attendance.id == record_id).update(status=new_status)
-        response.flash = "Estatus actualizado."
+        updated_attendance = attendance_factory.update_attendance(record_id, {'status': new_status})
+        if updated_attendance:
+            response.flash = "Estatus actualizado."
+        else:
+            response.flash = "Error al actualizar."
     else:
         response.flash = "Error al actualizar."
     return dict()
