@@ -1,21 +1,28 @@
 import random
 import string
+from applications.SIP.modules.factory.classes_students_factory import ClassesStudentsFactory
 
 class FakeDataClassesStudentsGenerator:
     def __init__(self, db):
-        self.db = db
+            self.db = db
+            self.classes_students_factory = ClassesStudentsFactory(db)
 
     def generate_classes_students(self, num_records):
-        student_ids = self.db(self.db.students.id > 0).select(self.db.students.id)
-        class_ids = self.db(self.db.classes.id > 0).select(self.db.classes.id)
+        student_ids = [student.id for student in self.db(self.db.students.id > 0).select()]
+        class_ids = [class_obj.id for class_obj in self.db(self.db.classes.id > 0).select()]
 
+        if not student_ids or not class_ids:
+            return
+        
         for _ in range(num_records):
             section_name = self.generate_unique_section_name()
-            self.db.classes_students.insert(
-                section_class=section_name,
-                classes_id=random.choice(class_ids).id,
-                student_id=random.choice(student_ids).id
-            )
+            classes_student_data = {
+                'section_class': section_name,
+                'classes_id': random.choice(class_ids),
+                'student_id': random.choice(student_ids)
+            }
+            self.classes_students_factory.get_or_create_classes_student(classes_student_data)
+
         self.db.commit()
 
     def generate_unique_section_name(self):

@@ -1,25 +1,41 @@
 from faker import Faker
 import random
+from applications.SIP.modules.factory.classes_factory import ClassesFactory
+from applications.SIP.modules.factory.salon_factory import SalonFactory
+from applications.SIP.modules.factory.subject_factory import SubjectFactory
+from applications.SIP.modules.factory.schedule_factory import ScheduleFactory
+from applications.SIP.modules.factory.teacher_factory import TeacherFactory
+from applications.SIP.modules.factory.day_of_week_factory import DayOfWeekFactory
 
 class FakeDataClassesGenerator:
     def __init__(self, db):
         self.db = db
         self.fake = Faker()
+        self.classes_factory = ClassesFactory(db)
+        self.salon_factory = SalonFactory(db)
+        self.subject_factory = SubjectFactory(db)
+        self.schedule_factory = ScheduleFactory(db)
+        self.teacher_factory = TeacherFactory(db)
+        self.day_of_week_factory = DayOfWeekFactory(db)
 
     def generate_classes(self, num_records):
-        salon_ids = self.db(self.db.salons.id > 0).select(self.db.salons.id)
-        subject_ids = self.db(self.db.subjects.id > 0).select(self.db.subjects.id)
-        schedule_ids = self.db(self.db.schedules.id > 0).select(self.db.schedules.id)
-        teacher_ids = self.db(self.db.teachers.id > 0).select(self.db.teachers.id)
-        day_of_week_ids = self.db(self.db.day_of_week.id > 0).select(self.db.day_of_week.id)
+        salon_ids = [salon.id for salon in self.salon_factory.list_salons()]
+        subject_ids = [subject.id for subject in self.subject_factory.list_subjects()]
+        schedule_ids = [schedule.id for schedule in self.schedule_factory.list_schedules()]
+        teacher_ids = [teacher.id for teacher in self.teacher_factory.list_teachers()]
+        day_of_week_ids = [day.id for day in self.day_of_week_factory.list_days_of_week()]
 
+        if not salon_ids or not subject_ids or not schedule_ids or not teacher_ids or not day_of_week_ids:
+            return
         for _ in range(num_records):
-            self.db.classes.insert(
-                code=self.fake.unique.lexify(text='????-????'),
-                salon_id=random.choice(salon_ids).id,
-                subject_id=random.choice(subject_ids).id,
-                schedule_id=random.choice(schedule_ids).id,
-                teacher_id=random.choice(teacher_ids).id,
-                day_of_week_id=random.choice(day_of_week_ids).id
-            )
+            class_data = {
+                'code': self.fake.unique.lexify(text='????-????'),
+                'salon_id': random.choice(salon_ids),
+                'subject_id': random.choice(subject_ids),
+                'schedule_id': random.choice(schedule_ids),
+                'teacher_id': random.choice(teacher_ids),
+                'day_of_week_id': random.choice(day_of_week_ids)
+            }
+            self.classes_factory.get_or_create_class(class_data)
+
         self.db.commit()
