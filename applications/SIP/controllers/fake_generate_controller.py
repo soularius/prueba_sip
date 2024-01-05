@@ -14,6 +14,11 @@ class FakeGenerateController:
         self.db = db
     
     def index(self):
+        """
+        Generates fake data for students, teachers, schedules, subjects, salons, classes, class students, and attendance.
+        
+        :return: A dictionary containing the message "Datos generados exitosamente"
+        """
         FakeDataStudentGenerator(self.db).generate_students(50)
         FakeDataTeacherGenerator(self.db).generate_teachers(50)
         FakeDataScheduleGenerator(self.db).generate_schedules(50)
@@ -26,6 +31,17 @@ class FakeGenerateController:
         return dict(message="Datos generados exitosamente")
 
     def static_data_generate(self):
+        """
+        Generates static data for the database.
+
+        This function generates fake data for various tables in the database. It calls several generator functions for different entities such as students, teachers, schedules, subjects, salons, days of the week, classes, class students, and attendance. After generating the data, it returns a dictionary with a success message.
+
+        Parameters:
+            self: The instance of the class.
+
+        Returns:
+            dict: A dictionary containing a success message.
+        """
         FakeDataStudentGenerator(self.db).generate_static_student()
         FakeDataTeacherGenerator(self.db).generate_static_teacher()
         FakeDataScheduleGenerator(self.db).generate_schedules(1)

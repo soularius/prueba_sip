@@ -4,6 +4,9 @@ class SubjectsController:
         self.SQLFORM = SQLFORM
     
     def index(self):
+        """
+        Return a dictionary containing a grid object for the subjects table.
+        """
         grid = self.SQLFORM.grid(
             self.db.subjects,
             create=True,

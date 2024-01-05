@@ -33,6 +33,27 @@ def setup_clean_session():
     return current
 
 class TestAttendancesController(unittest.TestCase):
+    """
+    Test suite for the AttendancesController in the SIP application.
+
+    This test suite verifies the functionality of the AttendancesController's methods, 
+    including creating, updating, listing, retrieving, and deleting attendance records.
+    It uses an in-memory SQLite database for testing database interactions.
+
+    Class Methods:
+        setUpClass(): Initializes the in-memory database and populates it with test data.
+        tearDownClass(): Cleans up the test environment after all tests have run.
+
+    Methods:
+        setUp(): Configures the test environment before each test.
+        test_attendance_view(): Tests the attendance_view function.
+        test_attendance_update(): Tests the attendance_update function.
+        test_api_create_attendance(): Tests the api_create_attendance function.
+        test_api_update_attendance(): Tests the api_update_attendance function.
+        test_api_list_attendance(): Tests the api_list_attendance function.
+        test_api_get_attendance(): Tests the api_get_attendance function.
+        test_api_delete_attendance(): Tests the api_delete_attendance function.
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -57,8 +78,14 @@ class TestAttendancesController(unittest.TestCase):
         self.SQLFORM.grid = Mock(return_value="Mock Grid")
 
     def test_attendance_view(self):
+        """
+        Tests the attendance_view function.
+
+        Verifies that the function constructs the correct URL for a given attendance record
+        and returns the expected result.
+        """
         record_id = '2'
-        # Configurar el objeto request
+        # Configure the request object
         self.request = Request({'wsgi.input': None, 'env': {'request_method': 'GET'}})
         self.request.application = 'SIP'
         self.request.controller = 'attendances'
@@ -67,40 +94,50 @@ class TestAttendancesController(unittest.TestCase):
         from gluon.globals import current
         current.request = self.request
 
-        # Obtener un registro de prueba
+        # Get a test record
         record = self.db.attendance(record_id)
-        # Construir la URL
+        # Build the URL
         constructed_url = URL('SIP', 'attendances', 'attendance_update', args=[record.id], extension='json')
         self.assertEqual(constructed_url, f'/SIP/attendances/attendance_update.json/{record_id}')
         result = attendance_view()
     
     def test_attendance_update(self):
-        # Crear un registro de asistencia para la prueba
+        """
+        Tests the attendance_update function.
+
+        Verifies that the function updates an attendance record with new data correctly.
+        """
+        # Create a test attendance record
         record_id = '3'
         updated_record = self.db.attendance(record_id)
         self.db.commit()
 
-        # Configurar el objeto request para una actualización exitosa
+        # Set the request object for a successful update
         new_status = '1'
         self.request = Request({'wsgi.input': None, 'env': {'request_method': 'GET'}})
         self.request.application = 'SIP'
         self.request.controller = 'attendances'
         self.request.function = 'attendance_update'
-        self.request.args = [record_id]  # ID del registro a actualizar
+        self.request.args = [record_id]  # ID of the record to update
         self.request._post_vars = {f'status_{record_id}': new_status}  # Nuevo estado
 
         from gluon.globals import current
         current.request = self.request
 
-        # Llamar a la función de actualización
+        # Call update function
         response = attendance_update()
 
-        # Verificar que el estado se haya actualizado correctamente
+        # Verify that the status has been updated correctly
         updated_record = self.db.attendance(record_id)
         self.assertEqual(updated_record.status, int(new_status))
 
     def test_api_create_attendance(self):
-        # Configurar el objeto request
+        """
+        Tests the api_create_attendance function.
+
+        Verifies that the function creates a new attendance record and returns the expected status.
+        """
+        # Configure the request object
         env = {'request_method': 'POST', "PATH_INFO": '/SIP/attendances/api_create_attendance'}
         self.request = Request(env)
         self.request.application = 'SIP'
@@ -129,7 +166,13 @@ class TestAttendancesController(unittest.TestCase):
         self.assertIn('success', response['status']) 
 
     def test_api_update_attendance(self):
-        attendance_id = '2'  # Reemplaza con un ID válido si es necesario
+        """
+        Tests the api_update_attendance function.
+
+        Verifies that the function updates an existing attendance record with new data and returns
+        the expected status.
+        """
+        attendance_id = '2'  # Replace with a valid ID if necessary
 
         env = {'request_method': 'PUT', "PATH_INFO": '/SIP/attendances/api_update_attendance'}
         self.request = Request(env)
@@ -144,7 +187,7 @@ class TestAttendancesController(unittest.TestCase):
         current.request = self.request
         current.db = self.db
 
-        # Ejecutar la prueba
+        # Run the test
         from gluon.http import HTTP
         try:
             response = api_update_attendance()
@@ -156,6 +199,12 @@ class TestAttendancesController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
     
     def test_api_list_attendance(self):
+        """
+        Tests the api_list_attendance function.
+
+        Verifies that the function lists attendance records correctly with pagination and returns
+        the expected status.
+        """
         self.request = Request(env={'request_method': 'GET'})
         self.request.application = 'SIP'
         self.request.controller = 'attendances'
@@ -177,7 +226,12 @@ class TestAttendancesController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
     
     def test_api_get_attendance(self):
-        # Asegúrate de tener un registro de asistencia válido para probar
+        """
+        Tests the api_get_attendance function.
+
+        Verifies that the function retrieves a specific attendance record and returns the expected status.
+        """
+        # Make sure you have a valid support record to test
         attendance_id = '3'
 
         self.request = Request(env={'request_method': 'GET'})
@@ -200,7 +254,12 @@ class TestAttendancesController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
    
     def test_api_delete_attendance(self):
-        attendance_id = '1'  # Reemplaza con un ID válido si es necesario
+        """
+        Tests the api_delete_attendance function.
+
+        Verifies that the function deletes a specific attendance record and returns the expected status.
+        """
+        attendance_id = '1'  # Replace with a valid ID if necessary
 
         self.request = Request(env={'request_method': 'DELETE'})
         self.request.application = 'SIP'

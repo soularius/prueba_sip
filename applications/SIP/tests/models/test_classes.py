@@ -11,7 +11,24 @@ from applications.SIP.modules.models.day_of_week import DayOfWeek
 
 class TestClassesModel(unittest.TestCase):
     def setUp(self):
-        # Configuración inicial
+        """
+        Set up the initial environment for the test case.
+
+        This function initializes the test database and defines the necessary tables:
+        - Salons
+        - Subjects
+        - Schedules
+        - Teachers
+        - DayOfWeek
+        - Classes
+
+        Parameters:
+            self (TestCase): The test case instance.
+
+        Returns:
+            None
+        """
+        # Initial setup
         self.db = DAL('sqlite:memory:')
         Salons(self.db).define_table()
         Subjects(self.db).define_table()
@@ -22,14 +39,29 @@ class TestClassesModel(unittest.TestCase):
         current.db = self.db
 
     def test_create_class(self):
-        # Crear registros para las tablas referenciadas
+        """
+        Test the functionality of creating a class.
+
+        This test function checks if the records for the referenced tables are correctly created.
+        It creates records for the 'salons', 'subjects', 'schedules', 'teachers', and 'day_of_week' tables.
+        Then, it creates a record in the 'classes' table with the provided code, salon ID, subject ID,
+        schedule ID, teacher ID, and day of the week ID. Finally, it retrieves the created record
+        and validates that it has been created correctly.
+
+        Parameters:
+        - self: The instance of the test class.
+
+        Return:
+        - None
+        """
+        # Create records for referenced tables
         salon_id = self.db.salons.insert(name="Salon 1", description="Salón 1")
         subject_id = self.db.subjects.insert(name="Matemáticas", description="Matemáticas")
         schedule_id = self.db.schedules.insert(block_start='08:00:00', block_end='10:00:00')
         teacher_id = self.db.teachers.insert(name="Juan", lastname="Pérez", email="juan@example.com", phone="123456789")
         day_of_week_id = self.db.day_of_week.insert(name="Lunes")
 
-        # Crear un registro en la tabla 'classes'
+        # Create a record in the 'classes' table
         class_id = self.db.classes.insert(
             code="CL01",
             salon_id=salon_id,
@@ -39,22 +71,34 @@ class TestClassesModel(unittest.TestCase):
             day_of_week_id=day_of_week_id
         )
 
-        # Recuperar el registro creado
+        # Retrieve the created record
         class_record = self.db.classes(class_id)
 
-        # Validar que el registro se haya creado correctamente
+        # Validate that the record was created correctly
         self.assertIsNotNone(class_record)
         self.assertEqual(class_record.code, "CL01")
 
     def test_field_representations(self):
-        # Crear registros para las tablas referenciadas
+        """
+        Test the field representations of the 'classes' table.
+
+        This function creates records for referenced tables and then inserts a record into the 'classes' table.
+        It retrieves the created record and tests the field representations of the record.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
+        # Create records for referenced tables
         salon_id = self.db.salons.insert(name="Salon 2", description="Salón 2")
         subject_id = self.db.subjects.insert(name="Física", description="Física")
         schedule_id = self.db.schedules.insert(block_start='10:00:00', block_end='12:00:00')
         teacher_id = self.db.teachers.insert(name="Ana", lastname="López", email="anaa@example.com", phone="12346789")
         day_of_week_id = self.db.day_of_week.insert(name="Martes")
 
-        # Crear un registro en 'classes'
+        # Create a record in 'classes'
         class_id = self.db.classes.insert(
             code="CL02",
             salon_id=salon_id,
@@ -64,10 +108,10 @@ class TestClassesModel(unittest.TestCase):
             day_of_week_id=day_of_week_id
         )
 
-        # Recuperar el registro creado
+        # Retrieve the created record
         class_record = self.db.classes(class_id)
 
-        # Probar las representaciones de campo
+        # Test field representations
         self.assertEqual(self.db.classes.salon_id.represent(class_record.salon_id, class_record), "Salon 2")
         self.assertEqual(self.db.classes.subject_id.represent(class_record.subject_id, class_record), "Física")
         self.assertEqual(self.db.classes.schedule_id.represent(class_record.schedule_id, class_record), "10:00:00 - 12:00:00")
@@ -75,7 +119,10 @@ class TestClassesModel(unittest.TestCase):
         self.assertEqual(self.db.classes.day_of_week_id.represent(class_record.day_of_week_id, class_record), "Martes")
 
     def tearDown(self):
-        # Limpiar el entorno después de cada prueba
+        """
+        Clean the environment after each test.
+        """
+        # Clean the environment after each test
         self.db.close()
         current.db = None
 

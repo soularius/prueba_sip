@@ -39,6 +39,17 @@ class TestAttendanceFactory(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        """
+        Set up the class for testing.
+
+        This class method is used to set up the necessary database tables and data for testing. It creates the necessary tables for the Student, DayOfWeek, Salons, Schedules, Subjects, Teachers, Classes, ClassesStudents, Attendance, and FakeGenerateController models. It also sets the current database to the in-memory SQLite database.
+
+        Parameters:
+        - cls: The class object.
+
+        Returns:
+        - None
+        """
         cls.db = DAL('sqlite:memory:')
         Student(cls.db).define_table()
         DayOfWeek(cls.db).define_table()
@@ -53,26 +64,63 @@ class TestAttendanceFactory(unittest.TestCase):
         current.db = cls.db
         
     def setUp(self):
+        """
+        Set up the test environment for the current test case.
+        This function initializes the necessary objects and variables required for the test.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         from gluon.globals import current
         current.response = Response()
 
         self.factory = AttendanceFactory(self.db)
 
     def test_create_attendance(self):
-        # Crear una asistencia y comprobar que se añade a la caché
+        """
+        Test the creation of attendance and check if it is added to the cache.
+
+        :param self: The instance of the test class.
+        :return: None
+        """
+        # Create an attendance and verify that it is added to the cache
         attendance_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         attendance = self.factory.get_or_create_attendance(attendance_data)
         self.assertIn(attendance.id, self.factory.cache)
 
     def test_read_attendance(self):
-        # Crear y luego recuperar una asistencia
+        """
+        Test the functionality of the 'read_attendance' method.
+
+        This method creates and then retrieves an attendance record using the provided attendance data.
+        The attendance data should include the 'classes_students_id', 'date_class', 'status', and 'note' fields.
+
+        Parameters:
+            self (TestClass): The instance of the test class.
+        
+        Returns:
+            None
+        """
+        # Create and then retrieve an attendance
         attendance_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         created_attendance = self.factory.get_or_create_attendance(attendance_data)
         fetched_attendance = self.factory.get_attendance(created_attendance.id)
         self.assertEqual(fetched_attendance.id, created_attendance.id)
 
     def test_update_attendance(self):
-        # Actualizar una asistencia
+        """
+        This function is used to test the update_attendance method of the Factory class.
+
+        Parameters:
+        - self: The instance of the test class.
+        
+        Returns:
+        - None
+        """
+        # Update an assistance
         attendance_id = 2
         updated_data = {'classes_students_id': 6, 'date_class': '2023-01-01', 'status': '1', 'note': 'Loremp'}
         self.factory.update_attendance(attendance_id, updated_data)
@@ -80,18 +128,51 @@ class TestAttendanceFactory(unittest.TestCase):
         self.assertEqual(updated_attendance.date_class, '2023-01-01')
 
     def test_delete_attendance(self):
-        # Eliminar una asistencia
+        """
+        Delete an attendance record.
+
+        This function takes an attendance ID as a parameter and deletes the corresponding attendance record from the factory cache. It then asserts that the attendance ID is not present in the factory cache.
+
+        Parameters:
+        - attendance_id (int): The ID of the attendance record to be deleted.
+
+        Returns:
+        - None
+        """
+        # Delete an assistance
         attendance_id = 4
         self.factory.delete_attendance(attendance_id)
         self.assertNotIn(attendance_id, self.factory.cache)
 
     def test_list_attendances(self):
-        # Listar asistencias
+        """
+        Test the functionality of the `list_attendances` method.
+
+        This function fetches a list of attendances using the `list_attendances` method from the `factory` object and asserts that the length of the returned list is greater than 0.
+
+        Parameters:
+        - self: The instance of the class calling this method.
+
+        Returns:
+        - None
+
+        Raises:
+        - AssertionError: If the length of the attendances list is not greater than 0.
+        """
+        # List assists
         attendances = self.factory.list_attendances(1, 10)
         self.assertTrue(len(attendances) > 0)
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Tear down the test class by rolling back the database changes and resetting the global variables.
+
+        :param cls: The test class.
+        :type cls: class
+        :return: None
+        :rtype: None
+        """
         cls.db.rollback()
         from gluon.globals import current
         current.request = None

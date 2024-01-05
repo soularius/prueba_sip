@@ -12,6 +12,17 @@ class FakeDataAttendanceGenerator:
         self.classes_students_factory = ClassesStudentsFactory(db)
 
     def generate_static_attendance(self):
+        """
+        Generate a static attendance.
+
+        This function generates a static attendance for a student. If there is no attendance record with the note "A63A01A45T" in the database, a new attendance record is created.
+
+        Parameters:
+            self (object): The current instance of the class.
+
+        Returns:
+            None
+        """
         # Generar un estudiante estático
         if not self.db(self.db.attendance.note == "A63A01A45T").select().first():
             attendance_data = {
@@ -24,6 +35,15 @@ class FakeDataAttendanceGenerator:
             self.attendance_factory.get_or_create_attendance(attendance_data)
 
     def generate_attendance(self, num_records):
+        """
+        Generates attendance records for a specified number of records.
+
+        Parameters:
+            num_records (int): The number of attendance records to generate.
+
+        Returns:
+            None
+        """
         classes_students_ids = [cs.id for cs in self.classes_students_factory.list_classes_students()]
 
         if not classes_students_ids:

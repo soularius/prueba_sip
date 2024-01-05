@@ -4,6 +4,12 @@ class ClassesController:
         self.SQLFORM = SQLFORM
     
     def index(self):
+        """
+        Retrieves all the records from the "classes" table and displays them in a grid.
+        
+        :param self: The instance of the current class.
+        :return: A dictionary containing the "grid" object.
+        """
         grid = self.SQLFORM.grid(
             self.db.classes,
             create=True,

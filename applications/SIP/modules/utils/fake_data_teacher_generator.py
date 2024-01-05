@@ -8,6 +8,23 @@ class FakeDataTeacherGenerator:
         self.teacher_factory = TeacherFactory(db)
 
     def generate_static_teacher(self):
+        """
+        Generate a static teacher.
+
+        This function generates a static teacher if one with the email "jhon.doe@example.es" does not already exist in the database. The generated teacher has the following data:
+        - id: 1
+        - name: "Jhon"
+        - lastname: "Doe"
+        - phone: "123456789"
+        - email: "jhon.doe@example.es"
+
+        Parameters:
+            self (ClassName): An instance of the ClassName.
+
+        Returns:
+            None
+
+        """
         # Generar un estudiante estático
         if not self.db(self.db.teachers.email == "jhon.doe@example.es").select().first():
             teacher_data = {
@@ -20,6 +37,15 @@ class FakeDataTeacherGenerator:
             self.teacher_factory.get_or_create_teacher(teacher_data)
 
     def generate_teachers(self, num_records):
+        """
+        Generates a specified number of teacher records.
+
+        Args:
+            num_records (int): The number of teacher records to generate.
+
+        Returns:
+            None
+        """
         for _ in range(num_records):
             teacher_data = {
                 'name': self.fake.first_name(),

@@ -26,7 +26,37 @@ def setup_clean_session():
 
 
 class TestStudentsController(unittest.TestCase):
+    """
+    Test suite for the StudentsController in the SIP application.
+
+    This class provides unit tests for various functionalities of the StudentsController, 
+    including registering, listing, viewing, editing, and API operations related to students. 
+    The tests use an in-memory SQLite database and mock objects to simulate web2py components.
+
+    Methods:
+        setUp(): Configures the test environment and database before each test.
+        test_students_register_ts(): Tests the student registration view.
+        test_students_list_ts(): Tests the student listing view.
+        test_students_view_ts(): Tests the student detail view.
+        test_students_edit_ts(): Tests the student edit view.
+        test_api_create_student(): Tests the API endpoint for creating a student.
+        test_api_list_student(): Tests the API endpoint for listing students.
+        test_api_get_student(): Tests the API endpoint for retrieving a specific student.
+        test_api_update_student(): Tests the API endpoint for updating a student.
+        test_api_delete_student(): Tests the API endpoint for deleting a student.
+        test_api_total_students(): Tests the API endpoint for getting the total number of students.
+        tearDown(): Resets the test environment after each test.
+    """
     def setUp(self):
+        """
+        Set up the necessary resources and environment for testing.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         from gluon.globals import current
         current.response = Response()
 
@@ -39,17 +69,32 @@ class TestStudentsController(unittest.TestCase):
         self.SQLFORM.grid = Mock(return_value="Mock Grid")
 
     def test_students_register_ts(self):
+        """
+        Test the students_register_ts function.
+
+        Verifies that the student registration view is rendered correctly with the title 'Registro de Estudiante'.
+        """
         response = students_register_ts()
         self.assertEqual(response['tittle'], "Registro de Estudiante")
     
     def test_students_list_ts(self):
+        """
+        Test the students_list_ts function.
+
+        Verifies that the student listing view is rendered correctly with the title 'Listado de Estudiantes'.
+        """
         response = students_list_ts()
         self.assertEqual(response['tittle'], "Listado de Estudiantes")
 
     def test_students_view_ts(self):
+        """
+        Test the students_view_ts function.
 
+        Verifies that the student detail view is rendered correctly for a specific student ID.
+        Checks if the title is 'Detalle de Estudiante' and the student ID matches the expected value.
+        """
         student_id = '2'
-        # Configurar el objeto request
+        # Configure the request object
         self.request = Request(env={'request_method': 'GET'})
         self.request.args = [str(student_id)]
 
@@ -61,8 +106,14 @@ class TestStudentsController(unittest.TestCase):
         self.assertEqual(response['student_id'], int(student_id))
 
     def test_students_edit_ts(self):
+        """
+        Test the students_edit_ts function.
+
+        Verifies that the student edit view is rendered correctly for a specific student ID.
+        Checks if the title is 'Editar Estudiante' and the student ID matches the expected value.
+        """
         student_id = '4'
-        # Configurar el objeto request
+        # Configure the request object
         self.request = Request(env={'request_method': 'GET'})
         self.request.args = [str(student_id)]
 
@@ -74,7 +125,13 @@ class TestStudentsController(unittest.TestCase):
         self.assertEqual(response['student_id'], int(student_id))
 
     def test_api_create_student(self):
-        # Configurar el objeto request
+        """
+        Test the api_create_student function.
+
+        Verifies that a new student can be created through the API.
+        Checks if the HTTP status is 201 (Created) and the response status is 'success'.
+        """
+        # Configure the request object
         env = {'request_method': 'POST', "PATH_INFO": '/SIP/students/api_create_student'}
         self.request = Request(env)
         self.request.application = 'SIP'
@@ -101,10 +158,16 @@ class TestStudentsController(unittest.TestCase):
             import json
             response = json.loads(response)
 
-        self.assertEqual(response['http_status'], 201)  # Asumiendo que devuelves 201 en caso de éxito
+        self.assertEqual(response['http_status'], 201)  # Assuming you return 201 on success
         self.assertIn('success', response['status'])
 
     def test_api_list_student(self):
+        """
+        Test the api_list_student function.
+
+        Verifies that the API correctly lists students with pagination.
+        Checks if the HTTP status is 200 (OK).
+        """
         self.request = Request(env={'request_method': 'GET'})
         self.request.application = 'SIP'
         self.request.controller = 'students'
@@ -123,11 +186,17 @@ class TestStudentsController(unittest.TestCase):
         if isinstance(response, str):
             import json
             response = json.loads(response)
-        self.assertEqual(response['http_status'], 200)  # Asumiendo que devuelves 200 en caso de éxito
+        self.assertEqual(response['http_status'], 200)  # Assuming you return 200 on success
 
     def test_api_get_student(self):
-        # Asegúrate de tener un registro de estudiante válido para probar
-        student_id = '2'  # Reemplaza con un ID válido si es necesario
+        """
+        Test the api_get_student function.
+
+        Verifies that the API correctly retrieves a specific student by ID.
+        Checks if the HTTP status is 200 (OK).
+        """
+        # Make sure you have a valid student registration to try
+        student_id = '2'  # Replace with a valid ID if necessary
 
         self.request = Request(env={'request_method': 'GET'})
         self.request.application = 'SIP'
@@ -150,7 +219,13 @@ class TestStudentsController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
 
     def test_api_update_student(self):
-        student_id = '3'  # Reemplaza con un ID válido si es necesario
+        """
+        Test the api_update_student function.
+
+        Verifies that a student's details can be updated through the API.
+        Checks if the HTTP status is 200 (OK).
+        """
+        student_id = '3'  # Replace with a valid ID if necessary use the diferent id to the others methods
 
         self.request = Request(env={'request_method': 'PUT'})
         self.request.application = 'SIP'
@@ -174,6 +249,12 @@ class TestStudentsController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
 
     def test_api_delete_student(self):
+        """
+        Test the api_delete_student function.
+
+        Verifies that a student can be deleted through the API.
+        Checks if the HTTP status is 200 (OK).
+        """
         student_id = '1'
 
         self.request = Request(env={'request_method': 'DELETE'})
@@ -197,6 +278,12 @@ class TestStudentsController(unittest.TestCase):
         self.assertEqual(response['http_status'], 200)
     
     def test_api_total_students(self):
+        """
+        Test the api_total_students function.
+
+        Verifies that the API correctly reports the total number of students.
+        Checks if the HTTP status is 200 (OK) and the total number of students is correctly reported.
+        """
         from gluon.globals import current
         current.db = self.db
 
@@ -209,11 +296,15 @@ class TestStudentsController(unittest.TestCase):
             import json
             response = json.loads(response)
         self.assertEqual(response['http_status'], 200)
-        # Aquí puedes hacer más aserciones para comprobar la respuesta
 
 
     def tearDown(self):
-        # Restablecer el estado de 'current' después de cada prueba
+        """
+        Tear down the test environment after each test.
+
+        Resets the state of 'current' to ensure no interference between tests.
+        """
+        # Reset status to 'current' after each test
         from gluon.globals import current
         current.request = None
         current.response = None

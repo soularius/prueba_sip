@@ -4,6 +4,11 @@ class TeachersController:
         self.SQLFORM = SQLFORM
     
     def index(self):
+        """
+        Generates the index page for the application.
+
+        :return: A dictionary containing the grid object.
+        """
         grid = self.SQLFORM.grid(
             self.db.teachers,
             create=True,

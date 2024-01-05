@@ -4,6 +4,12 @@ class SalonsController:
         self.SQLFORM = SQLFORM
     
     def index(self):
+        """
+        Generate the index page.
+
+        Returns:
+            dict: A dictionary containing the grid object.
+        """
         grid = self.SQLFORM.grid(
             self.db.salons,
             create=True,

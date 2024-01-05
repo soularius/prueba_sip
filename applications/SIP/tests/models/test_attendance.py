@@ -6,6 +6,25 @@ from applications.SIP.modules.models.attendance import Attendance
 class TestAttendanceModel(unittest.TestCase):
     
     def setUp(self):
+        """
+        Set up the test environment.
+
+        Creates a DAL instance for testing, using an in-memory SQLite database.
+        Defines necessary tables and relations required for the Attendance model:
+        - 'students' table with 'name' (string) and 'lastname' (string) fields.
+        - 'salons' table with 'name' (string) field.
+        - 'subjects' table with 'name' (string) field.
+        - 'classes' table with 'code' (string), 'salon_id' (reference to 'salons'), and 'subject_id' (reference to 'subjects') fields.
+        - 'classes_students' table with 'classes_id' (reference to 'classes'), 'student_id' (reference to 'students'), and 'section_class' (string) fields.
+
+        Initializes the Attendance model and defines its table.
+
+        Parameters:
+            self (TestClassName): The instance of the test class.
+
+        Returns:
+            None
+        """
         # Create a DAL instance for testing, using an in-memory SQLite database
         self.db = DAL('sqlite:memory:')
         
@@ -35,6 +54,21 @@ class TestAttendanceModel(unittest.TestCase):
         self.attendance_model.define_table()
 
     def test_table_definition(self):
+        """
+        Test the definition of the 'attendance' table.
+
+        This function tests if the 'attendance' table is defined in the database. It performs the following checks:
+        1. Check if the 'attendance' table is present in the list of tables in the database.
+        2. Check if the 'classes_students_id' field in the 'attendance' table has a 'IS_IN_DB' requirement.
+        3. Check if the 'date_class' field in the 'attendance' table has a 'IS_NOT_EMPTY' requirement.
+        4. Check if the 'date_class' field in the 'attendance' table has a 'IS_DATE' requirement.
+
+        Parameters:
+        - self: The instance of the test class.
+
+        Returns:
+        - None
+        """
         # Test if the 'attendance' table is defined
         self.assertIn('attendance', self.db.tables)
 
@@ -44,6 +78,15 @@ class TestAttendanceModel(unittest.TestCase):
         self.assertTrue(isinstance(self.db.attendance.date_class.requires[1], IS_DATE))
 
     def test_virtual_fields(self):
+        """
+        Test the virtual fields by creating a dummy record and retrieving it. Then, test the virtual fields of the `attendance_record` object.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         # Test the virtual fields by creating a dummy record
         student_id = self.db.students.insert(name="John", lastname="Doe")
         salon_id = self.db.salons.insert(name="Salon A")
@@ -62,6 +105,9 @@ class TestAttendanceModel(unittest.TestCase):
         self.assertEqual(attendance_record.subject_name, "Math")
 
     def tearDown(self):
+        """
+        Clean up and drop tables after tests.
+        """
         # Clean up and drop tables after tests
         self.db.attendance.drop()
         self.db.classes_students.drop()

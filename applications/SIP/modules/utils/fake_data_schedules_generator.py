@@ -9,6 +9,18 @@ class FakeDataScheduleGenerator:
         self.schedule_factory = ScheduleFactory(db)
 
     def generate_schedules(self, num_records):
+        """
+        Generates schedules based on the given number of records.
+        
+        Args:
+            num_records (int): The number of schedules to generate.
+        
+        Returns:
+            None
+        
+        Raises:
+            None
+        """
         for _ in range(num_records):
             hour_start = random.randint(7, 15)
             minute_start = random.choice([0, 30])

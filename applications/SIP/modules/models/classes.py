@@ -5,6 +5,26 @@ class Classes:
     def __init__(self, db):
         self.db = db
     def define_table(self):
+        """
+        Defines the 'classes' table in the database.
+
+        This function creates the 'classes' table in the database if it does not already exist. The table has the following fields:
+        
+        - 'code' (string, length=55, unique=True)
+        - 'salon_id' (reference to 'salons' table, ondelete='CASCADE')
+        - 'subject_id' (reference to 'subjects' table, ondelete='CASCADE')
+        - 'schedule_id' (reference to 'schedules' table, ondelete='CASCADE')
+        - 'teacher_id' (reference to 'teachers' table, ondelete='CASCADE')
+        - 'day_of_week_id' (reference to 'day_of_week' table, ondelete='CASCADE')
+
+        The function also sets up validation, representation, and widget attributes for each field.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         if 'classes' not in self.db.tables:
             self.db.define_table('classes',
                             Field('code', 'string', length=55, unique=True),
