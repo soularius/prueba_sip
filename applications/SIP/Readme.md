@@ -72,7 +72,6 @@ To compile the TypeScript code of the project, follow these steps:
   * Repeat the above command, changing the test directory as necessary (e.g., renderer, models, factory, controller).
 
 ```
-> cd applications\SIP\
 > python -m unittest discover applications\SIP\tests\services\api_services\
 > python -m unittest discover applications\SIP\tests\controller\
 > python -m unittest discover applications\SIP\tests\factory\
