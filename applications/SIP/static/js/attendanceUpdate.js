@@ -9,11 +9,11 @@ function updateAttendanceStatus(attendanceId, newStatus) {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        showMessage('Actualización exitosa', 'success');        
+        showMessage('Attendance updated successfully API', 'success');        
     })
     .catch((error) => {
         console.error('Error:', error);
-        showMessage('Error al actualizar', 'error');
+        showMessage('Error updated attendance API', 'error');
     });
 }
 

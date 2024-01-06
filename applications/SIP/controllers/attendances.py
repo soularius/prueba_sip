@@ -4,6 +4,7 @@ from applications.SIP.modules.services.api_services.api_attendances import APIAt
 from applications.SIP.modules.factory.attendance_factory import AttendanceFactory
 from gluon import current
 from gluon.html import URL
+import json
 
 def index():
     """
@@ -81,11 +82,17 @@ def attendance_update():
     - None
 
     Returns:
-    - None
+    - JSON response
     """
     request = current.request
     response = current.response
-    record_id = int(request.args[0]) if request.args and request.args[0].isdigit() else 0
+
+    # Asegúrate de que se proporciona un record_id válido
+    try:
+        record_id = int(request.args[0])
+    except (IndexError, ValueError):
+        return json.dumps({'status': 'error', 'message': 'ID de registro inválido'})
+
     new_status_key = f'status_{record_id}'
     new_status = request.vars.get(new_status_key)
 
@@ -94,12 +101,14 @@ def attendance_update():
     if record_id and new_status is not None:
         updated_attendance = attendance_factory.update_attendance(record_id, {'status': new_status})
         if updated_attendance:
-            response.flash = "Estatus actualizado."
+            response.flash = "Attendance updated successfully AJAX"
+            return json.dumps({'status': 'success', 'message': response.flash, 'http_status': 200})
         else:
-            response.flash = "Error al actualizar."
+            response.flash = "Error updated attendance AJAX"
+            return json.dumps({'status': 'error', 'message': response.flash, 'http_status': 500})
     else:
-        response.flash = "Error al actualizar."
-    return dict()
+        response.flash = "Error updated attendance AJAX"
+        return json.dumps({'status': 'error', 'message': response.flash, 'http_status': 500})
 
 def api_list_attendance():
     """
