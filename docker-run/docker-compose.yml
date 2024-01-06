@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: anyel/sip_web2py:v1.0
+    image: anyel/sip_web2py:v1.1
     ports:
       - "8000:8000"
     build: .
