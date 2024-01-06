@@ -1,124 +1,205 @@
-School Management System Project
-Project Description
+# School Management System Project
+
+## Project Description
 
 The School Management System is a web application designed to automate and manage key operations in an educational institution. It includes modules for student, teacher, subject, and classroom registration, schedule management, and student attendance tracking, among others.
-Main Features
 
-    Registration of students, teachers, subjects, and classrooms.
-    Management of schedules and weekdays.
-    Student attendance tracking.
-    Data management API.
-    Front-end developed in TypeScript and Back-end in Python (web2py).
+## Main Features
 
-System Requirements
+* Registration of students, teachers, subjects, and classrooms.
+* Management of schedules and weekdays.
+* Student attendance tracking.
+* Data management API.
+* Front-end developed in TypeScript and Back-end in Python (web2py).
 
-    Node.js and npm
-    Python 3.x
-    PostgreSQL
-    Web2py
+## System Requirements
 
-Configuration and Installation
+* Node.js and npm
+* Python 3.x
+* PostgreSQL
+* Web2py
 
-    Clone the repository: git clone [repository URL]
-    Install Node.js dependencies: npm install
-    Configure your Python and PostgreSQL environment.
-    Execute Alembic migrations to set up the database.
+## Configuration and Installation
 
-Compilation and Execution
-TypeScript Compilation
+1. Clone the repository: `git clone https://github.com/soularius/prueba_sip.git`
+2. Install Node.js dependencies: `cd applications/SIP/src && npm install`
+3. Configure your Python and PostgreSQL environment.
+4. Execute Alembic migrations to set up the database.
+
+### This dependencies for project
+
+#### This for TypeScript
+
+* npm install jest
+
+#### This for Web2py
+
+* pip install psycopg2
+* pip install faker
+* pip install pydal
+* pip install yatl
+* pip install gluon
+* pip install pyDAL
+* pip install requests
+* pip install lxml
+* pip install pyyaml
+* pip install mock
+
+## Compilation and Execution
+
+### TypeScript Compilation
 
 To compile the TypeScript code of the project, follow these steps:
 
-    TypeScript Compilation: Run npx tsc to compile the TypeScript files. This will generate the corresponding JavaScript files.
+* TypeScript Compilation: Run `npx tsc` to compile the TypeScript files. This will generate the corresponding JavaScript files.
+* Post-Processing: Run `node add-js-extension.js` for any necessary post-processing on the generated JavaScript files.
 
-    Post-Processing: Run node add-js-extension.js for any necessary post-processing on the generated JavaScript files.
+```
+> npx tsc && node add-js-extension.js
+```
 
-Test Execution
+### Test Execution
 
-    TypeScript Tests: To run the TypeScript tests, use the command npm test.
+* TypeScript Tests: To run the TypeScript tests, use the command `npm test`.
 
-    Python Tests (unittest)
+```
+> cd applications/SIP/src
+> npm test
+```
 
-    To execute the Python unit tests, use the following commands:
-        python -m unittest discover applications/SIP/tests/services/api_services/
-        Repeat the above command, changing the test directory as necessary (e.g., renderer, models, factory, controller).
+* Python Tests (unittest): To execute the Python unit tests, use the following commands:
+  * `python -m unittest discover applications/SIP/tests/services/api_services/`
+  * Repeat the above command, changing the test directory as necessary (e.g., renderer, models, factory, controller).
 
-Starting the Application
+```
+> cd applications\SIP\
+> python -m unittest discover applications\SIP\tests\services\api_services\
+> python -m unittest discover applications\SIP\tests\controller\
+> python -m unittest discover applications\SIP\tests\factory\
+...
+```
 
-    Web2py: Start the application by running python web2py.py.
-    Application Access: Once the application is started, access it via http://127.0.0.1:8000/SIP/.
+## Starting the Application
 
-Project APIs
+* Web2py: Start the application by running `python web2py.py`.
+* Application Access: Once the application is started, access it via [http://127.0.0.1:8000/SIP/](http://127.0.0.1:8000/SIP/). (If use docker deploy [http://127.0.0.1:8080/SIP/](http://127.0.0.1:8080/SIP/) and **the Pass to access admin is 123***)
+
+## Project APIs
 
 The project includes a series of APIs to manage various functionalities. Here are some of them:
 
-    Attendance API:
-        List attendances: GET http://127.0.0.1:8000/SIP/attendances/api_list_attendance?page=1
-        Get specific attendance: GET http://127.0.0.1:8000/SIP/attendances/api_get_attendance/2
-        Update attendance: PUT http://127.0.0.1:8000/SIP/attendances/api_update_attendance/2
-        Delete attendance: DELETE http://127.0.0.1:8000/SIP/attendances/api_delete_attendance/1
-        Create attendance: POST http://127.0.0.1:8000/SIP/attendances/api_create_attendance
+### Attendances:
 
-    Student API:
-        Get specific student: GET http://127.0.0.1:8000/SIP/students/api_get_student/1
-        List students: GET http://127.0.0.1:8000/SIP/students/api_list_student?page=1
-        Delete student: DELETE http://127.0.0.1:8000/SIP/students/api_delete_student/4
-        Update student: PUT http://127.0.0.1:8000/SIP/students/api_update_student/5
-        Create student: POST http://127.0.0.1:8000/SIP/students/api_create_student
-        Total students: GET http://127.0.0.1:8000/SIP/students/api_total_students
+* {{host}}/SIP/attendances/api\_list\_attendance?page=1
+* {{host}}/SIP/attendances/api\_get\_attendance/2
+* {{host}}/SIP/attendances/api\_update\_attendance/2
+* {{host}}/SIP/attendances/api\_delete\_attendance/1
+* {{host}}/SIP/attendances/api\_create\_attendance
+* {{host}}/SIP/attendances/api\_update\_attendance/2
 
-Dockerization and Deployment
+### Students
 
-    Dockerfile and docker-compose.yml included to facilitate deployment.
+* {{host}}/SIP/students/api\_get\_student/1
+* {{host}}/SIP/students/api\_list\_student?page=1
+* {{host}}/SIP/students/api\_delete\_student/4
+* {{host}}/SIP/students/api\_update\_student/5
+* {{host}}/SIP/students/api\_create\_student
+* {{host}}/SIP/students/api\_total\_students
 
-Code Quality Control
+*All is includes in postman collections*
 
-    Use of tools like black, flake8, pylint, bandit (Python), and ESLint (TypeScript).
+## Dockerization and Deployment
 
-Documentation
+To facilitate deployment, Dockerfile and docker-compose.yml are included. **Important**: For proper execution in a Docker environment, it is necessary to have SSL certificates and the nginx folder configured.
 
-    All code, comments, and docstrings are in English.
-    Follow Python and TypeScript conventions.
+### Execution with Docker
 
-Database Configuration
+1. Ensure Docker and Docker Compose are installed.
+2. Place your SSL certificates in the `./nginx/certs` folder.
+3. Ensure the `./nginx` folder contains the `default.conf` file properly configured.
+4. Execute the following command to start the services with Docker Compose:
 
-    Customize your DB.py file with the following configuration to set up the database connection:
+   <pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"></div></div></pre>
+5. <pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs">docker-compose up
+   </code></div></div></pre>
 
-python
+   This will start the services defined in `docker-compose.yml`, including the web server, database, and nginx.
 
-db = DAL('postgres://postgres:PASS@localhost:5432/sip_ingenieria',
+*All file is includes in the folder /docker-run (Include one certificate for execution)*
+
+## Code Quality Control
+
+* Use of tools like black, flake8, pylint, bandit (Python), and ESLint (TypeScript).
+
+## Database Configuration
+
+Customize your DB.py file with the following configuration to set up the database connection:
+
+*Note in docker `localhost` is changed to `db`*
+
+<pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-python">db = DAL('postgres://postgres:PASS@localhost:5432/sip_ingenieria',
          pool_size=configuration.get('db.pool_size'),
          migrate_enabled=configuration.get('db.migrate'),
          check_reserved=['all'])
+</code></div></div></pre>
 
-Postman Collections for API Testing
-Note on Postman Collections
+## Database Visual Model
 
-As part of the project, we have included a Postman collection to facilitate the testing of APIs. This collection contains pre-configured requests for all the APIs available in the School Management System. It's a valuable tool for developers and testers to quickly test and interact with the API endpoints without the need to manually set up each request.
+### Location and Details
+
+* The visual model of the database can be found in the file `modelEnd.svg` located in the `applications/SIP/docs` directory of the project repository.
+* This file provides a graphical representation of the database schema, making it easier to understand the structure and relationships between the different tables and entities in the database.
+
+### How to View
+
+* To view the file, simply navigate to the `applications/SIP/docs` directory.
+* Open the `modelEnd.svg` file with any compatible SVG viewer or web browser. This will display the visual layout of the database schema.
+
+### Importance of the Visual Model
+
+* Having a visual model is beneficial for both new and existing team members to quickly grasp the database architecture.
+* It aids in better understanding the relationships and constraints within the database, which is crucial for effective development and troubleshooting.
+
+## Postman Collections for API Testing
+
 Accessing and Using the Postman Collection
 
-    Location: The Postman collection is available in the test/postman directory within the project repository.
-    Importing to Postman:
-        Open Postman on your computer.
-        Click on the Import button.
-        Choose the file or drag and drop the Postman collection file from the test/postman directory.
-    Using the Collection:
-        Once imported, the collection will appear in the left-hand sidebar of Postman.
-        You can click on any request to view or edit its details and send requests to the API.
-        Ensure your local server or the server hosting the application is running, as the collection will make requests to the endpoints defined in the collection.
+#### Location
 
-Benefits of Using Postman Collection
+The Postman collection is available in the `applications/SIP/test/postman` directory within the project repository.
 
-    Efficiency: Quickly send requests to the API without manual setup.
-    Consistency: Ensure that all team members are testing the API in the same way.
-    Documentation: Serve as a form of live documentation for how the APIs are structured and expected to be used.
+#### Importing to Postman
 
-Additional Information
+1. Open Postman on your computer.
+2. Click on the 'Import' button.
+3. Choose the file or drag and drop the Postman collection file from the `applications/SIP/test/postman` directory.
 
-    The Postman collection is regularly updated to reflect any changes or additions to the API.
-    Users are encouraged to familiarize themselves with Postman for an efficient testing experience.
+#### Using the Collection
 
-Directory Hierarchy
+1. Once imported, the collection will appear in the left-hand sidebar of Postman.
+2. Click on any request to view or edit its details and send requests to the API.
+3. Before making requests, ensure to set up your environment in Postman:
+   * Go to the 'Manage Environments' section in Postman.
+   * Create or select an existing environment.
+   * Add a key named `host` and set its value to your local server address or the server hosting the application (e.g., `http://127.0.0.1:8000 or http://127.0.0.1:8080 for docker`).
+   * This `host` variable will be used in the collection to refer to the base URL of your API endpoints.
+4. Ensure your local server or the server hosting the application is running, as the collection will make requests to the endpoints defined in the collection.
+
+### Benefits of Using Postman Collection
+
+* **Efficiency**: Quickly send requests to the API without manual setup.
+* **Consistency**: Ensure that all team members are testing the API in the same way.
+* **Documentation**: Serve as a form of live documentation for how the APIs are structured and expected to be used.
+
+### Additional Information
+
+* The Postman collection is regularly updated to reflect any changes or additions to the API.
+* Users are encouraged to familiarize themselves with Postman for an efficient testing experience.
+
+## Directory Hierarchy
+
+**This struct is for applications/SIP**
+
 ```
 |—— controllers
 |    |—— appadmin.py
@@ -144,6 +225,8 @@ Directory Hierarchy
 |    |—— teachers.py
 |    |—— teachers_controller.py
 |—— LICENSE
+|—— docs
+|    |—— modelEnd.svg
 |—— models
 |    |—— db.py
 |    |—— menu.py

@@ -12,15 +12,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_list_attendance?page=1",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_list_attendance?page=1",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -42,15 +37,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_get_attendance/2",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_get_attendance/2",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -76,15 +66,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_update_attendance/2",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_update_attendance/2",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -101,15 +86,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_delete_attendance/1",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_delete_attendance/1",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -135,15 +115,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_create_attendance",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_create_attendance",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -168,15 +143,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/attendances/api_update_attendance/2",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/attendances/api_update_attendance/2",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"attendances",
@@ -186,6 +156,33 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://192.168.1.9:8080",
+			"type": "string"
 		}
 	]
 }

@@ -12,15 +12,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_get_student/1",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_get_student/1",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -37,15 +32,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_list_student?page=1",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_list_student?page=1",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -67,15 +57,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_delete_student/4",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_delete_student/4",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -101,15 +86,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_update_student/5",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_update_student/5",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -135,15 +115,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_create_student",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_create_student",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -159,15 +134,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/SIP/students/api_total_students",
-					"protocol": "http",
+					"raw": "{{host}}/SIP/students/api_total_students",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8000",
 					"path": [
 						"SIP",
 						"students",
@@ -176,6 +146,33 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://192.168.1.9:8080",
+			"type": "string"
 		}
 	]
 }
