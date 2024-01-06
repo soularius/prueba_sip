@@ -41,7 +41,7 @@ if not request.env.web2py_runtime_gae:
     # if NOT running on Google App Engine use SQLite or other DB
     # CHANGE AND DESCOMENT ME USE YOUR CURRENT CREDENTIALS
     # ---------------------------------------------------------------------
-    db = DAL('postgres://postgres:PASS@localhost:5432/sip_ingenieria',
+    db = DAL('postgres://postgres:PASS@db:5432/sip_ingenieria',
                 pool_size=configuration.get('db.pool_size'),
                 migrate_enabled=configuration.get('db.migrate'),
                 check_reserved=['all'])
